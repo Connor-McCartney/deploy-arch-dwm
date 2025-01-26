@@ -12,6 +12,4 @@ pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 cd /mnt
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch/main/after-chroot.sh
-chmod +x after-chroot.sh
-arch-chroot /mnt
-./after-chroot.sh
+cat after-chroot.sh | arch-chroot /mnt
