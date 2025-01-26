@@ -39,6 +39,6 @@ cd /home/connor/suckless/dmenu && sudo make clean install
 printf "exec dwm" > /home/connor/.xinitrc
 
 cd /home/connor
-wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch/main/user.sh
+wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/user.sh
 chmod +x user.sh
 sudo -u connor bash user.sh
