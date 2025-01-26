@@ -27,6 +27,18 @@ printf " \n \n" | passwd
 printf " \n \n" | passwd connor
 echo -e "root ALL=(ALL:ALL) ALL\n%wheel ALL=(ALL:ALL) NOPASSWD: ALL\n@includedir /etc/sudoers.d" > /etc/sudoers
 
+# suckless
+mkdir /home/connor/suckless
+cd /home/connor/suckless
+git clone https://git.suckless.org/dwm
+git clone https://git.suckless.org/st
+git clone https://git.suckless.org/dmenu
+cd /home/connor/suckless/dwm && sudo make clean install
+cd /home/connor/suckless/st && sudo make clean install
+cd /home/connor/suckless/dmenu && sudo make clean install
+printf "exec dwm" > /home/connor/.xinitrc
+
 cd /home/connor
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch/main/user.sh
 chmod +x user.sh
+sudo -u connor bash user.sh
