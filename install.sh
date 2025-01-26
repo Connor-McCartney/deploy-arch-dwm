@@ -11,5 +11,5 @@ swapon "$DISK""1"
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 cd /mnt
-wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch/main/after-chroot.sh
+wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/after-chroot.sh
 cat after-chroot.sh | arch-chroot /mnt
