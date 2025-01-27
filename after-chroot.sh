@@ -22,7 +22,8 @@ grub-install $DISK # BIOS
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # lightdm auto-login
-pacman -S --noconfirm lightdm
+pacman -S --noconfirm lightdm lightdm-gtk-greeter
+systemctl enable lightdm
 groupadd -r autologin
 cd /usr/share
 mkdir xsessions
