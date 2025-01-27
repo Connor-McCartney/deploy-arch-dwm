@@ -38,6 +38,13 @@ cd /home/connor/suckless/st && sudo make clean install
 cd /home/connor/suckless/dmenu && sudo make clean install
 printf "exec dwm" > /home/connor/.xinitrc
 
+
+# lightdm auto-login
+cd /usr/share
+mkdir xsessions
+printf "[Desktop Entry]\nExec=/usr/bin/startx\n" > dwm.desktop
+
+
 cd /home/connor
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/user.sh
 chmod +x user.sh
