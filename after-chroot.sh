@@ -54,3 +54,6 @@ cd /home/connor
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/user.sh
 chmod +x user.sh
 sudo -u connor bash user.sh
+
+rm /after-chroot.sh
+reboot
