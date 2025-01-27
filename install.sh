@@ -1,3 +1,5 @@
+set -e
+
 DISK="/dev/vda"
 #DISK="/dev/sda"
 
@@ -13,3 +15,5 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cd /mnt
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/after-chroot.sh
 cat after-chroot.sh | arch-chroot /mnt
+
+rm install.sh
