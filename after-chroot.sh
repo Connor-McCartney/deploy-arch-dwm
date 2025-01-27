@@ -23,11 +23,12 @@ grub-mkconfig -o /boot/grub/grub.cfg
 printf "[defaults]\nntfs_defaults=uid=\$UID,gid=\$GID\n" > /etc/udisks2/mount_options.conf
 
 # lightdm auto-login
+groupadd -r autologin
 cd /usr/share
 mkdir xsessions
 printf "[Desktop Entry]\nExec=/usr/bin/startx\n" > dwm.desktop
 
-useradd -m -G users,wheel,audio,video -s /bin/bash connor
+useradd -m -G users,wheel,audio,video,autologin -s /bin/bash connor
 printf " \n \n" | passwd
 printf " \n \n" | passwd connor
 echo -e "root ALL=(ALL:ALL) ALL\n%wheel ALL=(ALL:ALL) NOPASSWD: ALL\n@includedir /etc/sudoers.d" > /etc/sudoers
