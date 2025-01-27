@@ -22,6 +22,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # For my hard drive
 printf "[defaults]\nntfs_defaults=uid=\$UID,gid=\$GID\n" > /etc/udisks2/mount_options.conf
 
+# lightdm auto-login
+cd /usr/share
+mkdir xsessions
+printf "[Desktop Entry]\nExec=/usr/bin/startx\n" > dwm.desktop
+
 useradd -m -G users,wheel,audio,video -s /bin/bash connor
 printf " \n \n" | passwd
 printf " \n \n" | passwd connor
@@ -37,13 +42,6 @@ cd /home/connor/suckless/dwm && sudo make clean install
 cd /home/connor/suckless/st && sudo make clean install
 cd /home/connor/suckless/dmenu && sudo make clean install
 printf "exec dwm" > /home/connor/.xinitrc
-
-
-# lightdm auto-login
-cd /usr/share
-mkdir xsessions
-printf "[Desktop Entry]\nExec=/usr/bin/startx\n" > dwm.desktop
-
 
 cd /home/connor
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/user.sh
