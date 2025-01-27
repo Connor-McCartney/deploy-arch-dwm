@@ -1,3 +1,5 @@
+set -e
+
 #DISK="/dev/sda"
 DISK="/dev/vda"
 
