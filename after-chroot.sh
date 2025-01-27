@@ -57,4 +57,3 @@ chmod +x user.sh
 sudo -u connor bash user.sh
 
 rm /after-chroot.sh
-reboot
