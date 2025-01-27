@@ -28,6 +28,7 @@ groupadd -r autologin
 cd /usr/share
 mkdir xsessions
 printf "[Desktop Entry]\nExec=/usr/bin/startx\n" > dwm.desktop
+sudo sed -i 's/'#autologin-user='/'autologin-user=connor'/g' /etc/lightdm/lightdm.conf
 
 
 useradd -m -G users,wheel,audio,video,autologin -s /bin/bash connor
