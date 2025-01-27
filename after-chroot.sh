@@ -21,9 +21,6 @@ grub-install $DISK # BIOS
 # grub-install --target=x86_64-efi --efi-directory=/boot # UEFI
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# For my hard drive
-printf "[defaults]\nntfs_defaults=uid=\$UID,gid=\$GID\n" > /etc/udisks2/mount_options.conf
-
 # lightdm auto-login
 pacman -S --noconfirm lightdm
 groupadd -r autologin
