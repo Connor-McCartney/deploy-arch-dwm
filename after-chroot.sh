@@ -27,6 +27,7 @@ systemctl enable lightdm
 groupadd -r autologin
 cd /usr/share
 mkdir xsessions
+cd xsessions
 printf "[Desktop Entry]\nExec=/usr/bin/startx\n" > dwm.desktop
 sed -i 's/'#autologin-user='/'autologin-user=connor'/g' /etc/lightdm/lightdm.conf
 
