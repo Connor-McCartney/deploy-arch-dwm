@@ -8,4 +8,3 @@ makepkg -si --noconfirm
 
 
 rm /home/connor/user.sh
-reboot
