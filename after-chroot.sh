@@ -22,7 +22,7 @@ grub-install $DISK # BIOS
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # lightdm auto-login
-pacman -S --noconfirm lightdm lightdm-gtk-greeter
+pacman -S --noconfirm lightdm
 systemctl enable lightdm
 groupadd -r autologin
 cd /usr/share
@@ -46,6 +46,7 @@ cd /home/connor/suckless/dwm && sudo make clean install
 cd /home/connor/suckless/st && sudo make clean install
 cd /home/connor/suckless/dmenu && sudo make clean install
 printf "exec dwm" > /home/connor/.xinitrc
+
 
 cd /home/connor
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/user.sh
