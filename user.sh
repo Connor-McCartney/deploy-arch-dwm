@@ -7,5 +7,5 @@ cd paru-bin
 makepkg -si --noconfirm
 
 
-
 rm /home/connor/user.sh
+rm /after-chroot.sh
