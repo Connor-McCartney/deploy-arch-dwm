@@ -47,7 +47,8 @@ cd /home/connor/suckless/dwm && sudo make clean install
 cd /home/connor/suckless/st && sudo make clean install
 cd /home/connor/suckless/dmenu && sudo make clean install
 printf "exec dwm" > /home/connor/.xinitrc
-
+printf "exec dwm" > /home/connor/.xsession
+chmod +x /home/connor/.xsession
 
 cd /home/connor
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/user.sh
