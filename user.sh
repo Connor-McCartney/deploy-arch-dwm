@@ -19,4 +19,7 @@ cd /home/connor/suckless/dmenu && sudo make clean install
 printf "exec dwm" > /home/connor/.xsession # needed to boot with lightdm
 chmod +x /home/connor/.xsession
 
+paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
+paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alacritty
+
 rm /home/connor/user.sh
