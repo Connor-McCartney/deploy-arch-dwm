@@ -24,6 +24,6 @@ chmod +x /home/connor/.xsession
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
-paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alacritty
+paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alacritty tmux
 
 rm /home/connor/user.sh
