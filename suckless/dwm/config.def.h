@@ -90,7 +90,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_w,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY,                       XK_Tab,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_Tab,      focusstack,   {.i = +1 } },
 
 	// other
 	//{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
