@@ -7,11 +7,11 @@ cd paru-bin
 makepkg -si --noconfirm
 
 # suckless
-#mkdir /home/connor/suckless
-#cd /home/connor/suckless
-#git clone https://git.suckless.org/dwm
-#git clone https://git.suckless.org/st
-#git clone https://git.suckless.org/dmenu
+cd /tmp
+git clone https://github.com/Connor-McCartney/deploy-arch-dwm
+mv /tmp/deploy-arch-dwm/suckless /home/connor
+rm -rf /tmp/deploy-arch-dwm
+
 cd /home/connor/suckless/dwm && sudo make clean install
 cd /home/connor/suckless/dmenu && sudo make clean install
 #cd /home/connor/suckless/st && sudo make clean install
