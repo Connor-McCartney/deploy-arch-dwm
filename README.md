@@ -8,8 +8,11 @@ chmod +x install.sh
 ```
 
 # DWM patches
+
 https://dwm.suckless.org/patches/adjacenttag/
+
 https://dwm.suckless.org/patches/fullgaps/
+
 
 # DWM Keybinds
 Win-q kill dwm
