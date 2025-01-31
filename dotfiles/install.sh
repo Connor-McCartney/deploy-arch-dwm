@@ -1,3 +1,3 @@
 set -e
 
-mkdir .config/alacritty
+mkdir /home/connor/.config/alacritty
