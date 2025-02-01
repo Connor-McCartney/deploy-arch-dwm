@@ -27,4 +27,7 @@ chmod +x /home/connor/.xsession
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
 paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alacritty tmux sagemath
 
+cd /home/connor
+mkdir Documents t
+
 rm /home/connor/user.sh
