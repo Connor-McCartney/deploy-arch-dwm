@@ -13,7 +13,6 @@ echo "arch" > /etc/hostname
 
 pacman -S --noconfirm xorg xorg-xinit xclip
 pacman -S --noconfirm networkmanager neovim sudo base-devel os-prober grub vlc htop git wget
-pacman -S --noconfirm npm # needed for neovim LSPs...
 
 systemctl enable NetworkManager
 
