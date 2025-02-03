@@ -17,7 +17,7 @@ static const char col_purple[]      = "#702963";
 static const char col_white[]       = "#ffffff";
 static const char *colors[][3]      = {
 	/*               fg         bg           border   */
-	[SchemeNorm] = { col_white, col_gray1,   col_gray2 }, // unactive tabs
+	[SchemeNorm] = { col_white, col_gray1,   col_gray1 }, // unactive tabs
 	[SchemeSel]  = { col_white, col_purple,  col_purple }, // active tab
 };
 
