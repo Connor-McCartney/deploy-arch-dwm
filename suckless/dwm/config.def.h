@@ -13,10 +13,12 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+static const char col_purple[]      = "#702963";
+static const char col_white[]       = "#ffffff";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	/*               fg         bg           border   */
+	[SchemeNorm] = { col_white, col_gray1,   col_gray2 }, // unactive tabs
+	[SchemeSel]  = { col_white, col_purple,  col_purple }, // active tab
 };
 
 /* tagging */
@@ -29,7 +31,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "discord",       NULL,       NULL,       1<<0,            0,           -1 },
-        { "Google-chrome", NULL,       NULL,       1<<1,            0,           -1 },
+	{ "Google-chrome", NULL,       NULL,       1<<1,            0,           -1 },
 };
 
 /* layout(s) */

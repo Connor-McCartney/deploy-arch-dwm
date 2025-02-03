@@ -27,6 +27,10 @@ chmod +x /home/connor/.xsession
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
 paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alacritty tmux sagemath
 
+# wallpaper
+paru -S --noconfirm feh
+feh --bg-scale /home/connor/.wallpapers/1920x1080-dark.jpg
+
 cd /home/connor
 mkdir Documents t
 
