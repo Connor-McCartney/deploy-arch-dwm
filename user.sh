@@ -39,6 +39,6 @@ python -m venv /home/connor/.p
 # wallpaper
 paru -S --noconfirm feh
 startx
-feh --bg-scale /home/connor/.wallpapers/1920x1080-dark.jpg
+# feh --bg-scale /home/connor/.wallpapers/1920x1080-dark.jpg # I guess only run this when x is running, so post-install
 
 rm /home/connor/user.sh
