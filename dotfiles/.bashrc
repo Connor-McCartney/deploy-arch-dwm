@@ -10,6 +10,8 @@ alias dt="rm -rf ~/t/*"
 alias h=helix
 alias ls="ls --color=auto"
 alias l=ls
+alias p="/home/connor/.p/bin/python"
+alias pip="/home/connor/.p/bin/pip"
 
 c() {
   cd "$1" && ls
