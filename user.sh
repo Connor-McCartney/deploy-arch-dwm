@@ -30,6 +30,10 @@ chmod +x /home/connor/.xsession
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
 paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alacritty tmux sagemath
 
+# python setup
+paru -S --noconfirm python-pip
+python -m venv /home/connor/.p
+
 # wallpaper
 paru -S --noconfirm feh
 startx
