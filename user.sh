@@ -1,5 +1,8 @@
 set -e
 
+cd /home/connor
+mkdir Documents t
+
 # Paru
 cd /tmp
 git clone https://aur.archlinux.org/paru-bin.git
@@ -29,9 +32,7 @@ paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alac
 
 # wallpaper
 paru -S --noconfirm feh
+startx
 feh --bg-scale /home/connor/.wallpapers/1920x1080-dark.jpg
-
-cd /home/connor
-mkdir Documents t
 
 rm /home/connor/user.sh
