@@ -13,6 +13,7 @@ https://dwm.suckless.org/patches/adjacenttag/
 
 https://dwm.suckless.org/patches/fullgaps/
 
+https://dwm.suckless.org/patches/attachbelow/
 
 # DWM Keybinds
 
