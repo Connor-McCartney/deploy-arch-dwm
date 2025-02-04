@@ -39,7 +39,9 @@ Win-shift-arrow  drag program to adjacent tag
 
 Win-b toggle top bar
 
-Win-` custom switcher
+Win-esc custom switcher
+
+Win-shit-j/k move tiles left/right
 
 # Alacritty keybinds
 
