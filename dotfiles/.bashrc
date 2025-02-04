@@ -13,6 +13,10 @@ alias l=ls
 alias p="/home/connor/.p/bin/python"
 alias pip="/home/connor/.p/bin/pip"
 
+cd() {
+        command cd $1 && printf $(pwd) > /tmp/lastdir
+}
+
 c() {
   cd "$1" && ls
 }
