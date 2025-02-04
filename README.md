@@ -27,6 +27,8 @@ Win-2 chrome (tag 2)
 
 Win-enter alacritty
 
+Win-shift-enter alacritty in last working dir
+
 Win-p dmenu
 
 Win-tab switch programs
