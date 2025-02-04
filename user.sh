@@ -23,8 +23,11 @@ wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/hea
 chmod +x install.sh
 ./install.sh
 
+# wallpaper
+paru -S --noconfirm feh
+
 #printf "exec dwm" > /home/connor/.xinitrc # technically not needed, it's just to be able to run 'startx'
-printf "exec dwm" > /home/connor/.xsession # needed to boot with lightdm
+printf "feh --bg-scale /home/connor/.wallpapers/kuromi.jpg\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
 chmod +x /home/connor/.xsession
 
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
@@ -36,9 +39,6 @@ python -m venv /home/connor/.p
 /home/connor/.p/bin/python -m pip install --upgrade pip
 /home/connor/.p/bin/pip install pycryptodome gmpy2 pwntools
 
-# wallpaper
-paru -S --noconfirm feh
-startx
-# feh --bg-scale /home/connor/.wallpapers/1920x1080-dark.jpg # I guess only run this when x is running, so post-install
+
 
 rm /home/connor/user.sh
