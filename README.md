@@ -37,16 +37,6 @@ Win-shift-arrow  drag program to adjacent tag
 
 Win-b toggle top bar
 
-# Tmux keybinds
-
-ctrl-h - split pane horizontal
-
-ctrl-v - split pane vertical
-
-ctrl-k - switch pane, conveniently next to ctrl-l to clear screen ;)
-
-prefix-z - zoom/focus pane
-
 # Alacritty keybinds
 
 ctrl-shift-space vim mode
