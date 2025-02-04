@@ -17,7 +17,7 @@ https://dwm.suckless.org/patches/attachbelow/
 
 # DWM Keybinds
 
-Win-q kill dwm
+Win-shift-q kill dwm
 
 Win-w kill program
 
