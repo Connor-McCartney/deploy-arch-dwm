@@ -16,3 +16,5 @@ alias pip="/home/connor/.p/bin/pip"
 c() {
   cd "$1" && ls
 }
+
+[[ "$PWD" == "~" ]] && cd t
