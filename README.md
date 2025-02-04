@@ -37,6 +37,8 @@ Win-shift-arrow  drag program to adjacent tag
 
 Win-b toggle top bar
 
+Win-` custom switcher
+
 # Alacritty keybinds
 
 ctrl-shift-space vim mode
