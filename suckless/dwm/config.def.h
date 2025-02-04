@@ -67,6 +67,7 @@ static const char *alacritty[]  = { "alacritty", NULL };
 static const char *alacritty_lastdir[]  = { "/bin/sh", "-c", "alacritty --working-directory $(cat /tmp/lastdir)", NULL };
 static const char *discord[]  = { "discord", NULL };
 static const char *chrome[]  = { "google-chrome-stable", NULL };
+static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
 
 
 static const Key keys[] = {
@@ -99,6 +100,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Tab,      focusstack,   {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_Escape,    spawn,       {.v = switcher } },
 
 
 	// other
