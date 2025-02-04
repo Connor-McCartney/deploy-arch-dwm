@@ -64,6 +64,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *alacritty[]  = { "alacritty", NULL };
+static const char *alacritty_lastdir[]  = { "/bin/sh", "-c", "alacritty --working-directory $(cat /tmp/lastdir)", NULL };
 static const char *discord[]  = { "discord", NULL };
 static const char *chrome[]  = { "google-chrome-stable", NULL };
 
@@ -85,8 +86,9 @@ static const Key keys[] = {
 	// open programs
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = alacritty} },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = alacritty_lastdir} },
 	{ MODKEY,                       XK_1,      spawn,          {.v = discord} },
-        { MODKEY,                       XK_2,      spawn,          {.v = chrome} },
+  { MODKEY,                       XK_2,      spawn,          {.v = chrome} },
 
 
 	// other useful
