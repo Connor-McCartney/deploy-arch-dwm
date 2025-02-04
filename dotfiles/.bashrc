@@ -16,9 +16,3 @@ alias pip="/home/connor/.p/bin/pip"
 c() {
   cd "$1" && ls
 }
-
-# launch tmux
-alias tmux="TERM=xterm-256color tmux"
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
-fi
