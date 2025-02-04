@@ -43,6 +43,8 @@ Win-esc custom switcher
 
 Win-shit-h/l move tiles left/right
 
+Win-z zoom/promote to master tile
+
 # Alacritty keybinds
 
 ctrl-shift-space vim mode
