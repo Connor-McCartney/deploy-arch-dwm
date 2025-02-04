@@ -88,7 +88,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = alacritty} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = alacritty_lastdir} },
 	{ MODKEY,                       XK_1,      spawn,          {.v = discord} },
-  { MODKEY,                       XK_2,      spawn,          {.v = chrome} },
+        { MODKEY,                       XK_2,      spawn,          {.v = chrome} },
 
 
 	// other useful
