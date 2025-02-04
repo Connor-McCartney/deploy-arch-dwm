@@ -41,7 +41,7 @@ Win-b toggle top bar
 
 Win-esc custom switcher
 
-Win-shit-j/k move tiles left/right
+Win-shit-h/l move tiles left/right
 
 # Alacritty keybinds
 
