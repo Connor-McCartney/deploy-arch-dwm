@@ -62,3 +62,5 @@ x - select entire line
 ctrl-x autocomplete 
 
 ctrl-n and ctrl-p - cycle through autocomplete suggestions
+
+tab and shift-tab - cycle through autocomplete suggestions (same)
