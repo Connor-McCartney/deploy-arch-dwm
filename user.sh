@@ -39,6 +39,9 @@ python -m venv /home/connor/.p
 /home/connor/.p/bin/python -m pip install --upgrade pip
 /home/connor/.p/bin/pip install pycryptodome gmpy2 pwntools
 
+# sage libs
+/usr/bin/sage --pip install pycryptodome gmpy2 pwntools --break-system-packages
+
 # LSPs
 paru -S --noconfirm clang pyright lua-language-server
 
