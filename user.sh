@@ -27,7 +27,7 @@ chmod +x install.sh
 paru -S --noconfirm feh
 
 #printf "exec dwm" > /home/connor/.xinitrc # technically not needed, it's just to be able to run 'startx'
-printf "feh --bg-scale /home/connor/.wallpapers/kuromi.png\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
+printf "feh --bg-scale /home/connor/.wallpapers/kuromi.png\nxcompmgr &\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
 chmod +x /home/connor/.xsession
 
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
