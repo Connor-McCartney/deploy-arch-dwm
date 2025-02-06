@@ -13,6 +13,11 @@ alias l=ls
 alias p="/home/connor/.p/bin/python"
 alias pip="/home/connor/.p/bin/pip"
 
+sage() {
+    command sage $1 && rm "${1}.py"
+}
+alias s=sage
+
 cd() {
         command cd $1 && printf $(pwd) > /tmp/lastdir
 }
