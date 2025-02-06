@@ -53,18 +53,3 @@ ctrl-shift-f search
 
 ctrl-+/- zoom
 
-# Helix keybinds
-
-shift-space-y copy to clipboard
-
-x - select entire line
-
-ctrl-x autocomplete 
-
-ctrl-n and ctrl-p - cycle through autocomplete suggestions
-
-tab and shift-tab - cycle through autocomplete suggestions (same)
-
-`[d` and `]d` - cycle between LSP warnings/errors
-
-space-d - show all LSP warnings/errors
