@@ -31,7 +31,7 @@ printf "feh --bg-scale /home/connor/.wallpapers/kuromi.png\nexec dwm" > /home/co
 chmod +x /home/connor/.xsession
 
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
-paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alacritty sagemath
+paru -S --noconfirm google-chrome discord obsidian flameshot alacritty sagemath
 
 # python setup
 paru -S --noconfirm python-pip
