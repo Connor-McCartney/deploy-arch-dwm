@@ -35,7 +35,7 @@ paru -S --noconfirm google-chrome onlyoffice-bin discord obsidian flameshot alac
 
 # python setup
 paru -S --noconfirm python-pip
-sage-python -m venv /home/connor/.p
+python -m venv /home/connor/.p
 /home/connor/.p/bin/python -m pip install --upgrade pip
 /home/connor/.p/bin/pip install pycryptodome gmpy2 pwntools
 
