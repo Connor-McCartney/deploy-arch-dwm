@@ -40,7 +40,7 @@ python -m venv /home/connor/.p
 /home/connor/.p/bin/pip install pycryptodome gmpy2 pwntools
 
 # LSPs
-paru -S --noconfirm clang pyright
+paru -S --noconfirm clang pyright lua-language-server
 
 # Packer
 # https://github.com/wbthomason/packer.nvim
