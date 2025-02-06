@@ -26,8 +26,11 @@ chmod +x install.sh
 # wallpaper
 paru -S --noconfirm feh
 
+# transparency
+paru -S --noconfirm picom
+
 #printf "exec dwm" > /home/connor/.xinitrc # technically not needed, it's just to be able to run 'startx'
-printf "feh --bg-scale /home/connor/.wallpapers/kuromi.png\nxcompmgr &\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
+printf "feh --bg-scale /home/connor/.wallpapers/kuromi.png\npicom -b\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
 chmod +x /home/connor/.xsession
 
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
