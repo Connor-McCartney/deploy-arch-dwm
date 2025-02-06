@@ -21,4 +21,4 @@ c() {
   cd "$1" && ls
 }
 
-[[ "$PWD" == "~" ]] && cd t
+[[ "$PWD" == "/home/connor" ]] && cd t
