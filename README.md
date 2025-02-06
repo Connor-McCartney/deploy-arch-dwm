@@ -15,6 +15,8 @@ https://dwm.suckless.org/patches/fullgaps/
 
 https://dwm.suckless.org/patches/attachbelow/
 
+https://dwm.suckless.org/patches/alpha/
+
 # DWM Keybinds
 
 Win-shift-q kill dwm
