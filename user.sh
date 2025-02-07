@@ -27,7 +27,7 @@ chmod +x install.sh
 # wallpaper
 paru -S --noconfirm feh
 
-# transparency
+# compositor (for transparency, rounded corners, other effects)
 paru -S --noconfirm picom
 
 #printf "exec dwm" > /home/connor/.xinitrc # technically not needed, it's just to be able to run 'startx'
