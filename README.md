@@ -77,7 +77,7 @@ gd - go to definition
 
 gr - go to references
 
-<F2> - rename variable
+`<F2>` - rename variable
 
 o/O - insert line above/below
 
