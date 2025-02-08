@@ -95,6 +95,8 @@ gg - top of file
 
 G - bottom of file
 
+0 - go to line start
+
 A - insert at end of line
 
 V - select entire line
