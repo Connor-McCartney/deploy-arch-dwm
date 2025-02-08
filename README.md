@@ -7,6 +7,8 @@ chmod +x install.sh
 ./install.sh
 ```
 
+<br>
+
 # DWM patches
 
 https://dwm.suckless.org/patches/adjacenttag/
@@ -16,6 +18,8 @@ https://dwm.suckless.org/patches/fullgaps/
 https://dwm.suckless.org/patches/attachbelow/
 
 https://dwm.suckless.org/patches/alpha/
+
+<br>
 
 # DWM Keybinds
 
@@ -47,6 +51,8 @@ Win-shit-h/l move tiles left/right
 
 Win-z zoom/promote to master tile
 
+<br>
+
 # Alacritty keybinds
 
 ctrl-shift-space vim mode
@@ -55,5 +61,28 @@ ctrl-shift-f search
 
 ctrl-+/- zoom
 
+<br>
+
 # nvim keybinds
 
+ctrl-o/ctrl-n - scroll autocomplete suggestions
+
+ctrl-tab - select autocomplete suggestion
+
+ctrl-o/ctrl-i - switch back and forth buffers
+
+shift-K - lsp hover info
+
+gd - go to definition
+
+gr - go to references
+
+<F2> - rename variable
+
+o/O - insert line above/below
+
+ctrl-d/ctrl-u - scroll up/down
+
+/ - search
+
+n/N - scroll back/forth search findings
