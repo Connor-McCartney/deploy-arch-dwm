@@ -108,3 +108,7 @@ y - copy
 x - delete char (or cut when visual mode)
 
 s - delete char and enter insert mode
+
+u - undo
+
+ctrl-r - redo
