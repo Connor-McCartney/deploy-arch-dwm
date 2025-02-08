@@ -55,3 +55,5 @@ ctrl-shift-f search
 
 ctrl-+/- zoom
 
+# nvim keybinds
+
