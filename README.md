@@ -90,3 +90,21 @@ n/N - scroll back/forth search findings
 dd - delete line
 
 ctrl-j/ctrl-k - move lines up/down
+
+gg - top of file
+
+G - bottom of file
+
+A - insert at end of line
+
+V - select entire line
+
+q - macros
+
+w/b - forward/backwards a word
+
+y - copy
+
+x - delete char (or cut when visual mode)
+
+s - delete char and enter insert mode
