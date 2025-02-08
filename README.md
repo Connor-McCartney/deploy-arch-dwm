@@ -86,3 +86,7 @@ ctrl-d/ctrl-u - scroll up/down
 / - search
 
 n/N - scroll back/forth search findings
+
+dd - delete line
+
+ctrl-j/ctrl-k - move lines up/down
