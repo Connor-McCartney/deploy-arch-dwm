@@ -26,4 +26,21 @@ c() {
   cd "$1" && ls
 }
 
+
+fzf() {
+	command fzf --bind "ctrl-o:down,tab:accept"
+}
+
+V() {
+	cd
+	export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow --exclude .git"
+	nvim $(fzf --preview="bat --color=always {}");
+}
+
+C() {
+	cd;
+	export FZF_DEFAULT_COMMAND="fd --type d --strip-cwd-prefix --hidden --follow --exclude .git"
+	cd $(fzf)
+}
+
 [[ "$PWD" == "/home/connor" ]] && cd t
