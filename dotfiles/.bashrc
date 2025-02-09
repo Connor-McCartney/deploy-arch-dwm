@@ -38,7 +38,7 @@ V() {
 }
 
 C() {
-	cd;
+	cd
 	export FZF_DEFAULT_COMMAND="fd --type d --strip-cwd-prefix --hidden --follow --exclude .git"
 	cd $(fzf)
 }
