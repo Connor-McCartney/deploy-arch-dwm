@@ -34,7 +34,8 @@ fzf() {
 V() {
 	cd
 	export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow --exclude .git"
-	nvim $(fzf --preview="bat --color=always {}");
+	d=$(fzf --preview="bat --color=always {}")
+	nvim "$HOME/${d}";
 }
 
 C() {
