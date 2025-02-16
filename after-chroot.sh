@@ -17,6 +17,10 @@ pacman -S --noconfirm networkmanager neovim sudo base-devel os-prober grub vlc h
 pacman -S --noconfirm alsa-utils # adjust with alsamixer, arrowkeys and m toggles mute
 systemctl enable NetworkManager
 
+# disable screen saving
+printf 'Section "Extensions"\n\tOption "DPMS" "false"\nEndSection\n' > /etc/X11/xorg.conf.d/10-extensions.conf
+
+
 # GRUB
 printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=6 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
 grub-install $DISK # BIOS
