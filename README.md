@@ -101,6 +101,8 @@ G - bottom of file
 
 0 - go to line start
 
+$ - go to line end
+
 A - insert at end of line
 
 V - select entire line
