@@ -46,6 +46,15 @@
 	const char *
 	battery_state(const char *bat)
 	{
+		char path[PATH_MAX], state[12];
+        esnprintf(path, sizeof(path), "/sys/class/power_supply/%s/status", bat);
+        pscanf(path, "%12s", state);
+
+        static char ret [12];
+        strcpy(ret, state);
+        return ret;
+
+        /*
 		static struct {
 			char *state;
 			char *symbol;
@@ -70,6 +79,7 @@
 			}
 		}
 		return (i == LEN(map)) ? "?" : map[i].symbol;
+        */
 	}
 
 	const char *
