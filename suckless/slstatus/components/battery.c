@@ -47,8 +47,14 @@
 	battery_state(const char *bat)
 	{
 		char path[PATH_MAX], state[12];
-        esnprintf(path, sizeof(path), "/sys/class/power_supply/%s/status", bat);
-        pscanf(path, "%12s", state);
+
+		if (esnprintf(path, sizeof(path),
+		              "/sys/class/power_supply/%s/status", bat) < 0) {
+			return NULL;
+		}
+		if (pscanf(path, "%12s", state) != 1) {
+			return NULL;
+		}
 
         static char ret [12];
         strcpy(ret, state);
