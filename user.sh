@@ -34,7 +34,7 @@ paru -S --noconfirm picom
 printf "feh --bg-scale /home/connor/.wallpapers/kuromi.png\npicom -b\nslstatus &\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
 chmod +x /home/connor/.xsession
 
-paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji
+paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd
 paru -S --noconfirm google-chrome discord obsidian flameshot alacritty sagemath
 
 # python setup
