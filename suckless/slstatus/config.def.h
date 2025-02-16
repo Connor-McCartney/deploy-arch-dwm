@@ -63,10 +63,17 @@ static const char unknown_str[] = "n/a";
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  */
+
+// https://www.nerdfonts.com/cheat-sheet
 static const struct arg args[] = {
 	/* function format          argument */
 
- 	{ cpu_perc, " CPU %s%%",          NULL },
- 	{ ram_perc, " | RAM %s%%",          NULL },
-	{ datetime, " | %s",           "%a, %b %e | %I:%M %p " },
+ 	{ cpu_perc,      " CPU %s%%",       NULL },
+ 	{ ram_perc,      " | RAM %s%%",     NULL },
+ 	{ temp,          " | %s°C",         "/sys/class/thermal/thermal_zone0/temp" }, 
+ 	{ wifi_perc,     " |   %s%%",      "wlp3s0" }, 
+ 	{ battery_perc,  " |   %s%%",      "BAT0" }, //  /sys/class/power_supply
+ 	{ battery_state, " %s",             "BAT0" }, //  /sys/class/power_supply
+	{ datetime,      " | %s",           "%a, %b %e | %I:%M %p " },
+
 };
