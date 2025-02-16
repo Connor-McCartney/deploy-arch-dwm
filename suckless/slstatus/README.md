@@ -1,15 +1,18 @@
-slstatus - suckless status
-==========================
-slstatus is a small tool for providing system status information to other
-programs over the EWMH property of the root window (used by dwm(1)) or
-standard input/output. It is designed to be as efficient as possible by
-only issuing the minimum of system calls required.
+# slstatus - suckless status
 
+slstatus is a suckless status monitor for window managers that use WM_NAME
+(e.g. dwm) or stdin to fill the status bar.
 
-Features
+This is my fork of [suckless](https://suckless.org/)'s [slstatus](https://git.suckless.org/slstatus/).
+
+## My Features
+--------
+- IBus Engine
+- ALSA Volume
+
+## Features
 --------
 - Battery percentage/state/time left
-- Cat (read file)
 - CPU usage
 - CPU frequency
 - Custom shell commands
@@ -29,21 +32,17 @@ Features
 - Swap status (free swap, percentage, total swap and used swap)
 - Temperature
 - Uptime
-- Volume percentage
+- Volume percentage (OSS/ALSA)
 - WiFi signal percentage and ESSID
 
 
-Requirements
+## Requirements
 ------------
 Currently slstatus works on FreeBSD, Linux and OpenBSD.
 In order to build slstatus you need the Xlib header files.
 
-- For volume percentage on Linux the kernel module `snd-mixer-oss` must be
-  loaded.
-- For volume percentage on FreeBSD, `sndio` must be installed.
 
-
-Installation
+## Installation
 ------------
 Edit config.mk to match your local setup (slstatus is installed into the
 /usr/local namespace by default).
@@ -54,12 +53,17 @@ necessary as root):
     make clean install
 
 
-Running slstatus
+## Running slstatus
 ----------------
 See the man page for details.
 
 
-Configuration
+## Configuration
 -------------
 slstatus can be customized by creating a custom config.h and (re)compiling the
 source code. This keeps it fast, secure and simple.
+
+
+## Todo
+----
+Cleaning up the whole codebase it the goal before thinking about a release.

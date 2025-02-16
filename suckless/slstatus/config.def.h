@@ -59,7 +59,9 @@ static const char unknown_str[] = "n/a";
  * uptime              system uptime                   NULL
  * username            username of current user        NULL
  * vol_perc            OSS/ALSA volume in percent      mixer file (/dev/mixer)
- *                                                     NULL on OpenBSD/FreeBSD
+ 
+ // https://github.com/rahamatj/slstatus/blob/master/config.def.h
+ * alsa_vol            ALSA volume in percent          card:mixer (default:Master)   cat /proc/asound/cards
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  */
@@ -71,9 +73,11 @@ static const struct arg args[] = {
  	{ cpu_perc,      " CPU %s%%",       NULL },
  	{ ram_perc,      " | RAM %s%%",     NULL },
  	{ temp,          " | %s°C",         "/sys/class/thermal/thermal_zone0/temp" }, 
+ 	{ alsa_vol,      " |   %s%%",     "default:Master" }, 
  	{ wifi_perc,     " |   %s%%",      "wlp3s0" }, 
  	{ battery_perc,  " |   %s%%",      "BAT0" }, //  /sys/class/power_supply
  	{ battery_state, " %s",             "BAT0" }, //  /sys/class/power_supply
 	{ datetime,      " | %s",           "%a, %b %e | %I:%M %p " },
 
 };
+
