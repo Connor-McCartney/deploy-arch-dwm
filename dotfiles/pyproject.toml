@@ -1,0 +1,5 @@
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+
+
+[tool.pyright]
+reportArgumentType = false
