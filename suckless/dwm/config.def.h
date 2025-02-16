@@ -78,7 +78,7 @@ static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
 #include <X11/XF86keysym.h>
 static const char *upvol[]      = { "/usr/bin/amixer",  "set", "Master", "5%+", NULL };
 static const char *downvol[]    = { "/usr/bin/amixer",  "set", "Master", "5%-", NULL };
-static const char *mutevol[]    = { "/usr/bin/amixerl", "set", "Master", "toggle", NULL };
+static const char *mutevol[]    = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
