@@ -51,6 +51,10 @@ Win-shit-h/l move tiles left/right
 
 Win-z zoom/promote to master tile
 
+Win-left-click move window
+
+Win-right-click resize window
+
 <br>
 
 # Alacritty keybinds
