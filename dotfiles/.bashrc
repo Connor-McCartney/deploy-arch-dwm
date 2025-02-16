@@ -8,6 +8,7 @@ export PS1="\[\e[0;35m\]\n[\w]\[\[\e[m\] \[\e[0;37m\]\n\$\[\e[m\] "
 alias t="cd ~/t"
 alias dt="rm -rf ~/t/*"
 alias v=nvim
+alias vv="sudo nvim"
 alias ls="ls --color=auto"
 alias l=ls
 alias p="/home/connor/.p/bin/python"
