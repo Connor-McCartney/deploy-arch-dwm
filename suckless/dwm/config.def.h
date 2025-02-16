@@ -70,8 +70,23 @@ static const char *chrome[]  = { "google-chrome-stable", NULL };
 static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
 
 
+
+
+
+// audio hardware keys
+#include <X11/XF86keysym.h>
+static const char *upvol[]      = { "/usr/bin/pactl",   "set-sink-volume", "0",      "+5%",      NULL };
+static const char *downvol[]    = { "/usr/bin/pactl",   "set-sink-volume", "0",      "-5%",      NULL };
+static const char *mutevol[]    = { "/usr/bin/pactl",   "set-sink-mute",   "0",      "toggle",   NULL };
+
+
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+
+	// audio hardware keys
+	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
+	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
 
 	// fullgaps patch
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
