@@ -4,6 +4,7 @@
 static const unsigned int borderpx  = 7;        /* border pixel of windows */
 static const unsigned int gappx     = 15;        /* gaps between windows */
 static const unsigned int snap      = 15;       /* snap pixel */
+static const unsigned int user_bh   = 50;       /* snap pixel */
 
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -74,11 +75,11 @@ static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
 
 
 // audio hardware keys
+// https://gist.github.com/palopezv/efd34059af6126ad970940bcc6a90f2e
 #include <X11/XF86keysym.h>
-static const char *upvol[]      = { "/usr/bin/pactl",   "set-sink-volume", "0",      "+5%",      NULL };
-static const char *downvol[]    = { "/usr/bin/pactl",   "set-sink-volume", "0",      "-5%",      NULL };
-static const char *mutevol[]    = { "/usr/bin/pactl",   "set-sink-mute",   "0",      "toggle",   NULL };
-
+static const char *upvol[]      = { "/usr/bin/amixer",  "set", "Master", "5%+", NULL };
+static const char *downvol[]    = { "/usr/bin/amixer",  "set", "Master", "5%-", NULL };
+static const char *mutevol[]    = { "/usr/bin/amixerl", "set", "Master", "toggle", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
