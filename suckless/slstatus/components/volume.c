@@ -5,105 +5,67 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+#include "../slstatus.h"
 #include "../util.h"
 
-#if defined(__OpenBSD__)
-	#include <sys/audioio.h>
+#include <alsa/asoundlib.h>
 
-	const char *
-	vol_perc(const char *card)
-	{
-		static int cls = -1;
-		mixer_devinfo_t mdi;
-		mixer_ctrl_t mc;
-		int afd = -1, m = -1, v = -1;
+static const char *devname = "default";
+const char *
+vol_perc(const char *mixname)
+{
+    snd_mixer_t *mixer = NULL;
+    snd_mixer_selem_id_t *mixid = NULL;
+    snd_mixer_elem_t *elem = NULL;
+    long min = 0, max = 0, volume = -1;
+    int err, sw1, sw2;
 
-		if ((afd = open(card, O_RDONLY)) < 0) {
-			warn("open '%s':", card);
-			return NULL;
-		}
+    if ((err = snd_mixer_open(&mixer, 0))) {
+        warn("snd_mixer_open: %d", err);
+        return NULL;
+    }
+    if ((err = snd_mixer_attach(mixer, devname))) {
+        warn("snd_mixer_attach(mixer, \"%s\"): %d", devname, err);
+        goto cleanup;
+    }
+    if ((err = snd_mixer_selem_register(mixer, NULL, NULL))) {
+        warn("snd_mixer_selem_register(mixer, NULL, NULL): %d", err);
+        goto cleanup;
+    }
+    if ((err = snd_mixer_load(mixer))) {
+        warn("snd_mixer_load(mixer): %d", err);
+        goto cleanup;
+    }
 
-		for (mdi.index = 0; cls == -1; mdi.index++) {
-			if (ioctl(afd, AUDIO_MIXER_DEVINFO, &mdi) < 0) {
-				warn("ioctl 'AUDIO_MIXER_DEVINFO':");
-				close(afd);
-				return NULL;
-			}
-			if (mdi.type == AUDIO_MIXER_CLASS &&
-			    !strncmp(mdi.label.name,
-				     AudioCoutputs,
-				     MAX_AUDIO_DEV_LEN))
-				cls = mdi.index;
-			}
-		for (mdi.index = 0; v == -1 || m == -1; mdi.index++) {
-			if (ioctl(afd, AUDIO_MIXER_DEVINFO, &mdi) < 0) {
-				warn("ioctl 'AUDIO_MIXER_DEVINFO':");
-				close(afd);
-				return NULL;
-			}
-			if (mdi.mixer_class == cls &&
-			    ((mdi.type == AUDIO_MIXER_VALUE &&
-			      !strncmp(mdi.label.name,
-				       AudioNmaster,
-				       MAX_AUDIO_DEV_LEN)) ||
-			     (mdi.type == AUDIO_MIXER_ENUM &&
-			      !strncmp(mdi.label.name,
-				      AudioNmute,
-				      MAX_AUDIO_DEV_LEN)))) {
-				mc.dev = mdi.index, mc.type = mdi.type;
-				if (ioctl(afd, AUDIO_MIXER_READ, &mc) < 0) {
-					warn("ioctl 'AUDIO_MIXER_READ':");
-					close(afd);
-					return NULL;
-				}
-				if (mc.type == AUDIO_MIXER_VALUE)
-					v = mc.un.value.num_channels == 1 ?
-					    mc.un.value.level[AUDIO_MIXER_LEVEL_MONO] :
-					    (mc.un.value.level[AUDIO_MIXER_LEVEL_LEFT] >
-					     mc.un.value.level[AUDIO_MIXER_LEVEL_RIGHT] ?
-					     mc.un.value.level[AUDIO_MIXER_LEVEL_LEFT] :
-					     mc.un.value.level[AUDIO_MIXER_LEVEL_RIGHT]);
-				else if (mc.type == AUDIO_MIXER_ENUM)
-					m = mc.un.ord;
-			}
-		}
+    snd_mixer_selem_id_alloca(&mixid);
+    snd_mixer_selem_id_set_name(mixid, mixname);
+    snd_mixer_selem_id_set_index(mixid, 0);
 
-		close(afd);
+    elem = snd_mixer_find_selem(mixer, mixid);
+    if (!elem) {
+        warn("snd_mixer_find_selem(mixer, \"%s\") == NULL", mixname);
+        goto cleanup;
+    }
 
-		return bprintf("%d", m ? 0 : v * 100 / 255);
-	}
-#else
-	#include <sys/soundcard.h>
+    if ((err = snd_mixer_selem_get_playback_volume_range(elem, &min, &max))) {
+        warn("snd_mixer_selem_get_playback_volume_range(): %d", err);
+        goto cleanup;
+    }
+    if ((err = snd_mixer_selem_get_playback_volume(elem, SND_MIXER_SCHN_MONO, &volume))) {
+        warn("snd_mixer_selem_get_playback_volume(): %d", err);
+    }
+    if ((err = snd_mixer_selem_get_playback_switch(elem, 0, &sw1))) {
+        warn("snd_mixer_selem_get_playback_switch(): %d", err);
+    }
+    if ((err = snd_mixer_selem_get_playback_switch(elem, 1, &sw2))) {
+        warn("snd_mixer_selem_get_playback_switch(): %d", err);
+    }
 
-	const char *
-	vol_perc(const char *card)
-	{
-		size_t i;
-		int v, afd, devmask;
-		char *vnames[] = SOUND_DEVICE_NAMES;
+cleanup:
+    snd_mixer_free(mixer);
+    snd_mixer_detach(mixer, devname);
+    snd_mixer_close(mixer);
 
-		if ((afd = open(card, O_RDONLY | O_NONBLOCK)) < 0) {
-			warn("open '%s':", card);
-			return NULL;
-		}
-
-		if (ioctl(afd, (int)SOUND_MIXER_READ_DEVMASK, &devmask) < 0) {
-			warn("ioctl 'SOUND_MIXER_READ_DEVMASK':");
-			close(afd);
-			return NULL;
-		}
-		for (i = 0; i < LEN(vnames); i++) {
-			if (devmask & (1 << i) && !strcmp("vol", vnames[i])) {
-				if (ioctl(afd, MIXER_READ(i), &v) < 0) {
-					warn("ioctl 'MIXER_READ(%ld)':", i);
-					close(afd);
-					return NULL;
-				}
-			}
-		}
-
-		close(afd);
-
-		return bprintf("%d", v & 0xff);
-	}
-#endif
+    return volume == -1 ? NULL : bprintf("%s%.0f",
+        !(sw1 || sw2) ? "  " : "  ", (volume-min)*100./(max-min));
+}
