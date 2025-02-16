@@ -18,8 +18,9 @@ pacman -S --noconfirm alsa-utils # adjust with alsamixer, arrowkeys and m toggle
 systemctl enable NetworkManager
 
 # disable screen saving
+# https://wiki.archlinux.org/title/Display_Power_Management_Signaling
 printf 'Section "Extensions"\n\tOption "DPMS" "false"\nEndSection\n' > /etc/X11/xorg.conf.d/10-extensions.conf
-
+printf 'Section "ServerFlags"\n\tOption "BlankTime" "0"\nEndSection\n' > /etc/X11/xorg.conf.d/10-serverflags.conf
 
 # GRUB
 printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=6 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
