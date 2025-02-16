@@ -17,7 +17,8 @@ pacman -S --noconfirm networkmanager neovim sudo base-devel os-prober grub vlc h
 
 systemctl enable NetworkManager
 
-printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=9 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
+# GRUB
+printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=6 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
 grub-install $DISK # BIOS
 # grub-install --target=x86_64-efi --efi-directory=/boot # UEFI
 grub-mkconfig -o /boot/grub/grub.cfg
