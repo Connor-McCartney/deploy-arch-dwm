@@ -10,7 +10,6 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
 
   use 'sainnhe/sonokai'
-  use 'petRUShka/vim-sage'
 
   use {
     'nvim-treesitter/nvim-treesitter',
