@@ -122,3 +122,5 @@ s - delete char and enter insert mode
 u - undo
 
 ctrl-r - redo
+
+% - matching bracket
