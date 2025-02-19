@@ -128,3 +128,5 @@ u - undo
 ctrl-r - redo
 
 % - matching bracket
+
+) and ( - up/down functions/paragraphs
