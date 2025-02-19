@@ -113,6 +113,10 @@ q - macros
 
 w/b - forward/backwards a word
 
+e - same as w but cursor goes to end of word instead of beginning
+
+W/B/E - forwards/backwards but with whitespace
+
 y - copy
 
 x - delete char (or cut when visual mode)
