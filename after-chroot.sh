@@ -23,7 +23,7 @@ printf 'Section "Extensions"\n\tOption "DPMS" "false"\nEndSection\n' > /etc/X11/
 printf 'Section "ServerFlags"\n\tOption "BlankTime" "0"\nEndSection\n' > /etc/X11/xorg.conf.d/10-serverflags.conf
 
 # GRUB
-printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=6 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
+printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=1 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
 grub-install $DISK # BIOS
 # grub-install --target=x86_64-efi --efi-directory=/boot # UEFI
 grub-mkconfig -o /boot/grub/grub.cfg
