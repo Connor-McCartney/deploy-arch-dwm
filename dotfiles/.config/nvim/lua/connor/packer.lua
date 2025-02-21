@@ -10,6 +10,7 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
 
   use 'sainnhe/sonokai'
+  use 'sphamba/smear-cursor.nvim'
 
   use {
     'nvim-treesitter/nvim-treesitter',
