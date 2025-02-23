@@ -34,6 +34,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "discord",       NULL,       NULL,       1<<0,            0,           -1 },
 	{ "Google-chrome", NULL,       NULL,       1<<1,            0,           -1 },
+	{ "InputOutput",   NULL,       NULL,          0,            0,           -1 },
 };
 
 /* layout(s) */
