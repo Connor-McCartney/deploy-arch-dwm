@@ -35,6 +35,7 @@ static const Rule rules[] = {
 	{ "discord",       NULL,       NULL,       1<<0,            0,           -1 },
 	{ "Google-chrome", NULL,       NULL,       1<<1,            0,           -1 },
 	{ "InputOutput",   NULL,       NULL,          0,            0,           -1 },
+
 };
 
 /* layout(s) */
@@ -77,12 +78,30 @@ static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
 // audio hardware keys
 // https://gist.github.com/palopezv/efd34059af6126ad970940bcc6a90f2e
 #include <X11/XF86keysym.h>
+/*
 static const char *upvol[]      = { "/usr/bin/amixer",  "set", "Master", "5%+", NULL };
 static const char *downvol[]    = { "/usr/bin/amixer",  "set", "Master", "5%-", NULL };
 static const char *mutevol[]    = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
+*/
+static const char *upvol[] = { "/usr/bin/pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
+static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
+static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
+
+
+/* Control Media Players (pause/play/skip)*/
+// https://www.reddit.com/r/linux4noobs/comments/ole89p/assign_multimedia_keys_playpausenextprevious_in/?rdt=49942
+static const char *medplaypausecmd[] = { "playerctl", "play-pause", NULL };
+static const char *mednextcmd[] = { "playerctl", "next", NULL };
+static const char *medprevcmd[] = { "playerctl", "previous", NULL };
+
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+
+	/* Keybindings for Media play/pause/next/previous */
+	{ 0, XF86XK_AudioPlay, spawn, {.v = medplaypausecmd } },
+	{ 0, XF86XK_AudioNext, spawn, {.v = mednextcmd } },
+	{ 0, XF86XK_AudioPrev, spawn, {.v = medprevcmd } },
 
 	// audio hardware keys
 	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
