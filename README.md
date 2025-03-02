@@ -109,6 +109,8 @@ A - insert at end of line
 
 V - select entire line
 
+ctrl-v - visual mode in multiline/columns
+
 q - macros
 
 w/b - forward/backwards a word
