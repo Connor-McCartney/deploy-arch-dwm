@@ -95,7 +95,7 @@ n/N - scroll back/forth search findings
 
 dd - delete line
 
-ctrl-j/ctrl-k - move lines up/down (rebind)
+ctrl-j/ctrl-k - move lines up/down (custom rebind)
 
 gg - top of file
 
@@ -134,3 +134,5 @@ ctrl-r - redo
 % - matching bracket
 
 ) and ( - up/down functions/paragraphs
+
+ctrl-a - increment a number
