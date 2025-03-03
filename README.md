@@ -136,3 +136,5 @@ ctrl-r - redo
 ) and ( - up/down functions/paragraphs
 
 ctrl-a - increment a number
+
+~ - switch capitalisation
