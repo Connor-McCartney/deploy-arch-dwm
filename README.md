@@ -107,6 +107,8 @@ $ - go to line end
 
 A - insert at end of line
 
+I - insert at beginning of line
+
 V - select entire line
 
 ctrl-v - visual mode in multiline/columns
