@@ -137,4 +137,6 @@ ctrl-r - redo
 
 ctrl-a - increment a number
 
+ctrl-x - decrement a number
+
 ~ - switch capitalisation
