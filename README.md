@@ -95,7 +95,7 @@ n/N - scroll back/forth search findings
 
 dd - delete line
 
-ctrl-j/ctrl-k - move lines up/down
+ctrl-j/ctrl-k - move lines up/down (rebind)
 
 gg - top of file
 
