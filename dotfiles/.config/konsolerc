@@ -1,11 +1,14 @@
 [Desktop Entry]
 DefaultProfile=Main.profile
 
-[MainWindow]
-MenuBar=Disabled
+[General]
+ConfigVersion=1
 
-[UiSettings]
-ColorScheme=Breeze Dark
+[MainWindow]
+MenuBar=Enabled
 
 [SplitView]
 SplitViewVisibility=AlwaysHideSplitHeader
+
+[UiSettings]
+ColorScheme=Breeze Dark
