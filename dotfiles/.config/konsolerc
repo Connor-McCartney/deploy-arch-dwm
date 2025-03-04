@@ -1,0 +1,8 @@
+[Desktop Entry]
+DefaultProfile=Main.profile
+
+[MainWindow]
+MenuBar=Disabled
+
+[UiSettings]
+ColorScheme=Breeze Dark

@@ -4,7 +4,8 @@ cd /tmp
 git clone https://github.com/Connor-McCartney/deploy-arch-dwm
 
 
-mv /tmp/deploy-arch-dwm/dotfiles/.config/alacritty /home/connor/.config
+mv /tmp/deploy-arch-dwm/dotfiles/.config/konsolerc /home/connor/.config
+mv /tmp/deploy-arch-dwm/dotfiles/.local/share/konsole /home/connor/.local/share
 mv /tmp/deploy-arch-dwm/dotfiles/.config/nvim /home/connor/.config
 mv /tmp/deploy-arch-dwm/dotfiles/.config/picom /home/connor/.config
 mv /tmp/deploy-arch-dwm/dotfiles/.bashrc /home/connor
