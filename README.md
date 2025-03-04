@@ -33,9 +33,9 @@ Win-1 discord (tag 1)
 
 Win-2 chrome (tag 2)
 
-Win-enter alacritty
+Win-enter terminal
 
-Win-shift-enter alacritty in last working dir
+Win-shift-enter terminal in last working dir
 
 Win-p dmenu
 
