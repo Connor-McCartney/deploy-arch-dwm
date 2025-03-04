@@ -33,7 +33,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "discord",       NULL,       NULL,       1<<0,            0,           -1 },
-	{ "Google-chrome", NULL,       NULL,       1<<1,            0,           -1 },
+	{ "LibreWolf",     NULL,       NULL,       1<<1,            0,           -1 },
 	{ "InputOutput",   NULL,       NULL,          0,            0,           -1 },
 
 };
@@ -65,10 +65,10 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *alacritty[]  = { "alacritty", NULL };
-static const char *alacritty_lastdir[]  = { "/bin/sh", "-c", "alacritty --working-directory $(cat /tmp/lastdir)", NULL };
+static const char *konsole[]  = { "konsole", NULL };
+static const char *konsole_lastdir[]  = { "/bin/sh", "-c", "konsole --working-directory $(cat /tmp/lastdir)", NULL };
 static const char *discord[]  = { "discord", NULL };
-static const char *chrome[]  = { "google-chrome-stable", NULL };
+static const char *librewolf[]  = { "librewolf", NULL };
 static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
 
 
@@ -121,10 +121,10 @@ static const Key keys[] = {
 
 	// open programs
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = alacritty} },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = alacritty_lastdir} },
+	{ MODKEY,                       XK_Return, spawn,          {.v = konsole} },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = konsole_lastdir} },
 	{ MODKEY,                       XK_1,      spawn,          {.v = discord} },
-        { MODKEY,                       XK_2,      spawn,          {.v = chrome} },
+    { MODKEY,                       XK_2,      spawn,          {.v = librewolf} },
 
 
 	// other useful
@@ -140,8 +140,8 @@ static const Key keys[] = {
 
 	// other
 	//{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	//{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
+	//{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	//{ MODKEY,                       XK_Tab,    view,           {0} },
 	//{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	//{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
