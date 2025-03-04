@@ -6,3 +6,6 @@ MenuBar=Disabled
 
 [UiSettings]
 ColorScheme=Breeze Dark
+
+[SplitView]
+SplitViewVisibility=AlwaysHideSplitHeader
