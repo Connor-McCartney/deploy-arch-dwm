@@ -35,7 +35,7 @@ printf "feh --bg-scale /home/connor/.wallpapers/kuromi.png\npicom -b\nslstatus &
 chmod +x /home/connor/.xsession
 
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd
-paru -S --noconfirm google-chrome librewolf-bin discord obsidian flameshot sagemath thunar konsole
+paru -S --noconfirm brave-bin discord obsidian flameshot sagemath thunar konsole
 
 # python setup
 paru -S --noconfirm python-pip
