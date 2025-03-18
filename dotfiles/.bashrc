@@ -19,6 +19,8 @@ sage() {
     command sage $1 && rm "${1}.py"
 }
 alias s=sage
+alias xx="nvim x.sage"
+alias x="sage x.sage"
 
 cd() {
     command cd $1 && printf $(pwd) > /tmp/lastdir
