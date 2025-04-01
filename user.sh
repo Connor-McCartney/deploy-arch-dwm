@@ -31,6 +31,10 @@ paru -S --noconfirm feh
 paru -S --noconfirm picom
 
 #printf "exec dwm" > /home/connor/.xinitrc # technically not needed, it's just to be able to run 'startx'
+
+# add these if using a monitor
+# xrandr --output LVDS-1 --off
+# xrandr --output VGA-1 --auto
 printf "feh --bg-scale /home/connor/.wallpapers/kuromi.png\npicom -b\nslstatus &\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
 chmod +x /home/connor/.xsession
 
