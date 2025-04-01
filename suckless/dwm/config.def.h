@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
+static const unsigned int rightgap  = 30;        /* my topbar gap on the right */
 static const unsigned int borderpx  = 7;        /* border pixel of windows */
 static const unsigned int gappx     = 15;        /* gaps between windows */
 static const unsigned int snap      = 15;       /* snap pixel */
