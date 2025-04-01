@@ -140,3 +140,6 @@ ctrl-a - increment a number
 ctrl-x - decrement a number
 
 ~ - switch capitalisation
+
+
+ctrl-w-w switch tabs
