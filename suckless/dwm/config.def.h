@@ -108,8 +108,12 @@ static const Key keys[] = {
 
     // audio hardware keys
     { 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-    { 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
+    { 0,                       XF86XK_AudioMute,        spawn, {.v = mutevol } },
     { 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+
+    // alternative volume
+    { MODKEY,                       XK_Page_Up,    spawn,        {.v = upvol } },
+    { MODKEY,                       XK_Page_Down,  spawn,        {.v = downvol } },
 
     // fullgaps patch
     { MODKEY,                       XK_minus,  setgaps,        {.i = -3 } },
