@@ -15,6 +15,7 @@ alias p="/home/connor/.p/bin/python"
 alias pip="/home/connor/.p/bin/pip"
 alias m="sudo make clean install"
 alias untar="tar -xvzf"
+alias sc="printf \"\033[?25h\"" # show cursor
 
 
 sage() {
