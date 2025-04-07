@@ -16,6 +16,8 @@ vim.opt.cursorline = true     --highlight current line
 vim.opt.swapfile = false      --disable annoying swapfiles
 vim.treesitter.language.register('python', 'sage')  -- treesitter highlighting for sagemath
 
-
 -- disable history popup
 vim.cmd("nnoremap q: <nop>")
+
+-- https://www.reddit.com/r/neovim/comments/13585hy/trying_to_disable_autocomments_on_new_line_eg
+vim.cmd('autocmd BufEnter * set formatoptions-=cro')
