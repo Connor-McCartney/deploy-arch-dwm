@@ -12,6 +12,7 @@ return require('packer').startup(function(use)
   use 'sainnhe/sonokai'
   use 'sphamba/smear-cursor.nvim'
   use 'karb94/neoscroll.nvim'
+  use 'max397574/better-escape.nvim'
 
   use {
     'nvim-treesitter/nvim-treesitter',
