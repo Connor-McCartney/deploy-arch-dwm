@@ -593,7 +593,7 @@ configurenotify(XEvent *e)
 		sw = ev->width;
 		sh = ev->height;
 		if (updategeom() || dirty) {
-			drw_resize(drw, sw, bh);
+			drw_resize(drw, sw - rightgap, bh);
 			updatebars();
 			for (m = mons; m; m = m->next) {
 				for (c = m->clients; c; c = c->next)
@@ -731,6 +731,11 @@ drawbar(Monitor *m)
 	int x, w, tw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
+
+
+
+
+
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
@@ -750,7 +755,7 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 
-	x = 0;
+	x = 27;
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
@@ -761,6 +766,24 @@ drawbar(Monitor *m)
 				urg & 1 << i);
 		x += w;
 	}
+
+    // Draw kuromi
+    enum { k_cyan, k_purple, k_white};
+    static const char col_cyan[]        = "#005577";
+    static const char col_purple[]      = "#702963";
+    static const char col_white[]       = "#ffffff";
+
+    static const char *kuromi_colors[][3]      = {
+        [k_cyan] = { col_cyan, col_cyan, col_cyan }, 
+        [k_purple]  = { col_purple, col_purple,  col_purple }, 
+        [k_white]  = { col_white, col_white,  col_white }, 
+    };
+
+    Clr *kuromi_scheme= drw_scm_create(drw, kuromi_colors[k_white], 3);
+    drw_setscheme(drw, kuromi_scheme);
+    drw_rect(drw, 0, 0, 27, 21, 1, 1);
+
+
 
 	w = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeNorm]);
