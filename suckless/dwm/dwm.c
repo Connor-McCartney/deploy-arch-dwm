@@ -755,7 +755,7 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 
-	x = 27;
+	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
@@ -766,29 +766,276 @@ drawbar(Monitor *m)
 				urg & 1 << i);
 		x += w;
 	}
-
-    // Draw kuromi
-    enum { k_cyan, k_purple, k_white};
-    static const char col_cyan[]        = "#005577";
-    static const char col_purple[]      = "#702963";
-    static const char col_white[]       = "#ffffff";
-
-    static const char *kuromi_colors[][3]      = {
-        [k_cyan] = { col_cyan, col_cyan, col_cyan }, 
-        [k_purple]  = { col_purple, col_purple,  col_purple }, 
-        [k_white]  = { col_white, col_white,  col_white }, 
-    };
-
-    Clr *kuromi_scheme= drw_scm_create(drw, kuromi_colors[k_white], 3);
-    drw_setscheme(drw, kuromi_scheme);
-    drw_rect(drw, 0, 0, 27, 21, 1, 1);
-
-
-
 	w = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
+    // Draw kuromi
+    enum { k_grey, k_purple, k_white, k_black};
+    static const char col_grey[]        = "#222222";
+    static const char col_purple[]      = "#702963";
+    static const char col_white[]       = "#ffffff";
+    static const char col_black[]       = "#000000";
+
+    static const char *kuromi_colors[][4]      = {
+        [k_grey] = { col_grey, col_grey, col_grey}, 
+        [k_purple]  = { col_purple, col_purple,  col_purple }, 
+        [k_white]  = { col_white, col_white,  col_white }, 
+        [k_black]  = { col_black, col_black,  col_black }, 
+    };
+    drw_setscheme(drw, drw_scm_create(drw, kuromi_colors[k_grey], 3));
+    drw_rect(drw, x, 0, 27 + 8, 21, 1, 1);
+
+
+    int black_squares[][2] = {
+        {0, 0},
+        {0, 1},
+
+        {1, 0},
+        {1, 1},
+        {1, 2},
+        {1, 3},
+        {1, 4},
+        {1, 5},
+        {1, 6},
+        {1, 7},
+
+        {2, 1},
+        {2, 2},
+        {2, 3},
+        {2, 4},
+        {2, 5},
+        {2, 6},
+        {2, 7},
+
+        {2, 11},
+        {2, 12},
+        {2, 13},
+        {2, 14},
+
+        {3, 2},
+        {3, 3},
+        {3, 4},
+        {3, 5},
+        {3, 6},
+        {3, 7},
+
+        {3, 9},
+        {3, 10},
+        {3, 11},
+        {3, 12},
+        {3, 13},
+        {3, 14},
+        {3, 15},
+        {3, 16},
+
+        {4, 2},
+        {4, 3},
+        {4, 4},
+        {4, 5},
+        {4, 6},
+        {4, 7},
+
+        {4, 8},
+        {4, 9},
+        {4, 10},
+        {4, 11},
+        {4, 12},
+        {4, 16},
+        {4, 17},
+
+        {5, 3},
+        {5, 4},
+        {5, 5},
+        {5, 6},
+        {5, 7},
+
+        {5, 9},
+        {5, 8},
+        {5, 10},
+        {5, 11},
+        {5, 17},
+        {5, 18},
+
+        {6, 4},
+        {6, 6},
+        {6, 7},
+        {6, 8},
+        {6, 9},
+        {6, 10},
+        {6, 18},
+        {6, 19},
+
+
+        {7, 6},
+        {7, 7},
+        {7, 8},
+        {7, 9},
+        {7, 10},
+        {7, 13},
+        {7, 19},
+
+
+        {8, 6},
+        {8, 7},
+        {8, 8},
+        {8, 9},
+        {8, 10},
+        {8, 11},
+        {8, 14},
+        {8, 15},
+        {8, 16},
+        {8, 19},
+        {8, 20},
+
+
+        {9, 5},
+        {9, 6},
+        {9, 7},
+        {9, 8},
+        {9, 9},
+        {9, 10},
+        {9, 11},
+        {9, 14},
+        {9, 15},
+        {9, 16},
+        {9, 20},
+
+        {10, 5},
+        {10, 6},
+        {10, 7},
+        {10, 20},
+
+
+        {11, 5},
+        {11, 6},
+        {11, 9},
+        {11, 11},
+        {11, 10},
+
+
+        {12, 5},
+        {12, 6},
+        {12, 12},
+        {12, 20},
+
+        {13, 5},
+        {13, 6},
+        {13, 12},
+        {13, 13},
+        {13, 13},
+        {13, 18},
+        {13, 20},
+    };
+    drw_setscheme(drw, drw_scm_create(drw, kuromi_colors[k_black], 3));
+    for (int j=0; j<sizeof(black_squares)/sizeof(int)/2; j++) {
+        drw_rect(drw, x + black_squares[j][0], black_squares[j][1], 1, 1, 1, 1);
+        drw_rect(drw, x + 26 - black_squares[j][0], black_squares[j][1], 1, 1, 1, 1);
+    }
+
+    int skull_squares[][2] = {
+        {10, 8},
+        {10, 9},
+
+        {11, 7},
+        {11, 8},
+        {11, 10},
+
+        {12, 7},
+        {12, 8},
+        {12, 9},
+        {12, 10},
+        {12, 11},
+
+        {13, 8},
+        {13, 7},
+        {13, 9},
+        {13, 10},
+        {13, 11},
+        {13, 16}, // nose
+    };
+    drw_setscheme(drw, drw_scm_create(drw, kuromi_colors[k_purple], 3));
+    for (int j=0; j<sizeof(skull_squares)/sizeof(int)/2; j++) {
+        drw_rect(drw, x + skull_squares[j][0], skull_squares[j][1], 1, 1, 1, 1);
+        drw_rect(drw, x + 26 - skull_squares[j][0], skull_squares[j][1], 1, 1, 1, 1);
+    }
+
+    int white_squares[][2] = {
+        {4, 13},
+        {4, 14},
+        {4, 15},
+
+        {5, 12},
+        {5, 13},
+        {5, 14},
+        {5, 15},
+        {5, 16},
+
+        {6, 11},
+        {6, 12},
+        {6, 13},
+        {6, 14},
+        {6, 15},
+        {6, 16},
+        {6, 17},
+
+        {7, 11},
+        {7, 12},
+        {7, 14},
+        {7, 16},
+        {7, 17},
+        {7, 18},
+
+        {8, 12},
+        {8, 13},
+        {8, 17},
+        {8, 18},
+
+        {9, 12},
+        {9, 13},
+        {9, 17},
+        {9, 18},
+        {9, 19},
+
+        {10, 12},
+        {10, 13},
+        {10, 14},
+        {10, 15},
+        {10, 16},
+        {10, 17},
+        {10, 18},
+        {10, 19},
+
+        {11, 13},
+        {11, 14},
+        {11, 15},
+        {11, 16},
+        {11, 17},
+        {11, 18},
+        {11, 19},
+
+        {12, 13},
+        {12, 14},
+        {12, 15},
+        {12, 16},
+        {12, 17},
+        {12, 18},
+        {12, 19},
+
+        {13, 14},
+        {13, 15},
+        {13, 17},
+        {13, 19},
+    };
+    drw_setscheme(drw, drw_scm_create(drw, kuromi_colors[k_white], 3));
+    for (int j=0; j<sizeof(white_squares)/sizeof(int)/2; j++) {
+        drw_rect(drw, x + white_squares[j][0], white_squares[j][1], 1, 1, 1, 1);
+        drw_rect(drw, x + 26 - white_squares[j][0], white_squares[j][1], 1, 1, 1, 1);
+    }
+
+
+
+    x += 27 + 8;
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
