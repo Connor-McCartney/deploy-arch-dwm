@@ -60,10 +60,15 @@ local cmp_mappings = cmp.mapping.preset.insert({
     ['<Tab>'] = cmp.mapping.confirm({ select = true }),
 })
 
+
 cmp.setup({
     -- https://github.com/hrsh7th/nvim-cmp/blob/main/doc/cmp.txt
     mapping = cmp_mappings,
     experimental = { ghost_text = true },
+    window = {
+        completion = cmp.config.window.bordered({border = "rounded"}),
+        documentation = cmp.config.window.bordered({border = "rounded"}),
+    },
     sources = cmp.config.sources({
         { name = 'nvim_lsp'},
         { name = 'buffer'},
