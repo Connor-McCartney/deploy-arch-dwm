@@ -52,7 +52,7 @@ python -m venv /home/connor/.p
 /usr/bin/sage --pip install pycryptodome pwntools --break-system-packages
 
 # LSPs
-paru -S --noconfirm clang pyright lua-language-server
+paru -S --noconfirm clang pyright lua-language-server asm-lsp
 
 # Packer
 # https://github.com/wbthomason/packer.nvim
