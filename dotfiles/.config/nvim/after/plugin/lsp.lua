@@ -39,7 +39,7 @@ require('lspconfig').pyright.setup({
     },
   },
 })
-require('lspconfig').clangd.setup({})
+
 require('lspconfig').lua_ls.setup({
   settings = {
     Lua = {
@@ -49,6 +49,30 @@ require('lspconfig').lua_ls.setup({
     }
   }
 })
+
+
+require('lspconfig').rust_analyzer.setup({})
+require('lspconfig').clangd.setup({})
+require('lspconfig').asm_lsp.setup({})
+
+-- asm-lsp gen-config
+-- put the .asm-lsp.toml in ur proect dir
+
+-- gas:
+
+--[default_config]
+--version = "0.10.0"
+--assembler = "gas"
+--instruction_set = "x86-64"
+
+--[default_config.opts]
+--compiler = "/bin/gcc"
+--compile_flags_txt = []
+--diagnostics = true
+--default_diagnostics = true
+
+-- nasm:
+
 
 
 
