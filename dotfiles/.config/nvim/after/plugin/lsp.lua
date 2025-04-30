@@ -73,6 +73,16 @@ require('lspconfig').asm_lsp.setup({})
 
 -- nasm (.asm):
 
+--[default_config]
+--version = "0.10.0"
+--assembler = "nasm"
+--instruction_set = "x86-64"
+
+--[default_config.opts]
+--compiler = "/bin/nasm"
+--compile_flags_txt = []
+--diagnostics = true
+--default_diagnostics = true
 
 
 
