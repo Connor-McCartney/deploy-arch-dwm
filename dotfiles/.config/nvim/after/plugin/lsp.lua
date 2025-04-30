@@ -58,7 +58,7 @@ require('lspconfig').asm_lsp.setup({})
 -- asm-lsp gen-config
 -- put the .asm-lsp.toml in ur proect dir
 
--- gas:
+-- gas (.s):
 
 --[default_config]
 --version = "0.10.0"
@@ -71,7 +71,7 @@ require('lspconfig').asm_lsp.setup({})
 --diagnostics = true
 --default_diagnostics = true
 
--- nasm:
+-- nasm (.asm):
 
 
 
