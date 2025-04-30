@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
     local opts = {buffer = event.buf}
 
-    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "rounded"})<cr>', opts)
     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
     vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
@@ -32,6 +32,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- You'll find a list of language servers here:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are example language servers. 
+
+
 require('lspconfig').pyright.setup({
   settings = {
     python = {
@@ -93,7 +95,6 @@ local cmp_mappings = cmp.mapping.preset.insert({
     ['<C-o>'] = cmp.mapping.select_next_item(cmp_select),
     ['<Tab>'] = cmp.mapping.confirm({ select = true }),
 })
-
 
 cmp.setup({
     -- https://github.com/hrsh7th/nvim-cmp/blob/main/doc/cmp.txt
