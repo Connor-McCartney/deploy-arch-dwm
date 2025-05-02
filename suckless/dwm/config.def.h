@@ -67,13 +67,16 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 //static const char *terminal[]  = { "konsole", NULL };
+//static const char *terminal_lastdir[]  = { "/bin/sh", "-c", "konsole --workdir $(cat /tmp/lastdir)", NULL };
 static const char *terminal[]  = { "kitty", NULL };
-static const char *terminal_lastdir[]  = { "/bin/sh", "-c", "konsole --workdir $(cat /tmp/lastdir)", NULL };
+static const char *terminal_lastdir[]  = { "/bin/sh", "-c", "kitty -d $(cat /tmp/lastdir)", NULL };
 static const char *discord[]  = { "discord", NULL };
 static const char *browser1[]  = { "brave", NULL };
 static const char *browser2[]  = { "google-chrome-stable", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
 static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
+static const char *vim_saver[]  = { "/bin/sh", "-c", "./.vim_saver.sh", NULL };
+static const char *vim_quit[]  = { "/bin/sh", "-c", "./.vim_quit.sh", NULL };
 static const char *xsage[]  = { "/bin/sh", "-c", "./.xsage.sh", NULL };
 static const char *nothing[]  = { "/bin/sh", NULL };
 
@@ -153,6 +156,8 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_h,      setmfact,       {.f = -0.05} },
     { MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.05} },
     { MODKEY,                       XK_Escape, spawn,          {.v = switcher } },
+    { MODKEY,                       XK_grave,  spawn,          {.v = vim_saver } },
+    { MODKEY,                       XK_a,      spawn,          {.v = vim_quit} },
     { MODKEY,                       XK_x,      spawn,          {.v = xsage } },
 
 
