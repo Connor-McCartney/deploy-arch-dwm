@@ -13,8 +13,11 @@ mv /tmp/deploy-arch-dwm/dotfiles/.bashrc /home/connor
 mv /tmp/deploy-arch-dwm/dotfiles/.fdignore /home/connor
 mv /tmp/deploy-arch-dwm/dotfiles/pyproject.toml /home/connor
 mv /tmp/deploy-arch-dwm/dotfiles/.wallpapers /home/connor
+
 mv /tmp/deploy-arch-dwm/dotfiles/.switcher.sh /home/connor
 mv /tmp/deploy-arch-dwm/dotfiles/.xsage.sh /home/connor
-chmod +x /home/connor/.switcher.sh
+mv /tmp/deploy-arch-dwm/dotfiles/.vim_quit.sh /home/connor
+mv /tmp/deploy-arch-dwm/dotfiles/.vim_saver.sh /home/connor
+chmod +x /home/connor/.switcher.sh /home/connor/.vim_quit.sh /home/connor/.vim_saver.sh /home/connor/.xsage.sh
 
 rm -rf /tmp/deploy-arch-dwm
