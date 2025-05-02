@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int rightgap  = 30;        /* my topbar gap on the right */
+static const unsigned int rightgap  = 0;        /* my topbar gap on the right */
 static const unsigned int borderpx  = 7;        /* border pixel of windows */
 static const unsigned int gappx     = 15;        /* gaps between windows */
 static const unsigned int snap      = 15;       /* snap pixel */
@@ -35,7 +35,8 @@ static const Rule rules[] = {
      */
     /* class           instance    title          tags mask     isfloating   monitor */
     { "discord",       NULL,       NULL,          1<<0,            0,           -1 },
-    { "Brave-browser", NULL,       NULL,          1<<1,            0,           -1 },
+    { "chess",         NULL,       NULL,             0,            1,           -1 },
+//    { "Brave-browser", NULL,       NULL,          1<<1,            0,           -1 },
 };
 
 /* layout(s) */
@@ -65,7 +66,8 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *terminal[]  = { "konsole", NULL };
+//static const char *terminal[]  = { "konsole", NULL };
+static const char *terminal[]  = { "kitty", NULL };
 static const char *terminal_lastdir[]  = { "/bin/sh", "-c", "konsole --workdir $(cat /tmp/lastdir)", NULL };
 static const char *discord[]  = { "discord", NULL };
 static const char *browser1[]  = { "brave", NULL };
@@ -73,6 +75,7 @@ static const char *browser2[]  = { "google-chrome-stable", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
 static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
 static const char *xsage[]  = { "/bin/sh", "-c", "./.xsage.sh", NULL };
+static const char *nothing[]  = { "/bin/sh", NULL };
 
 
 
@@ -101,6 +104,11 @@ static const char *medprevcmd[] = { "playerctl", "previous", NULL };
 static const Key keys[] = {
     /* modifier                     key        function        argument */
 
+    { 0, XK_Menu, spawn, {.v = nothing} },
+    { 0, XK_Shift_R, spawn, {.v = nothing} },
+
+
+
     /* Keybindings for Media play/pause/next/previous */
     { 0, XF86XK_AudioPlay, spawn, {.v = medplaypausecmd } },
     { 0, XF86XK_AudioNext, spawn, {.v = mednextcmd } },
@@ -121,10 +129,10 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 
     // adjacenttags patch
-    { MODKEY,                       XK_Right,  viewnext,       {0} },
-    { MODKEY,                       XK_Left,   viewprev,       {0} },
-    { MODKEY|ShiftMask,             XK_Right,  tagtonext,      {0} },
-    { MODKEY|ShiftMask,             XK_Left,   tagtoprev,      {0} },
+    { MODKEY,                       XK_k,  viewnext,       {0} },
+    { MODKEY,                       XK_j,   viewprev,       {0} },
+    { MODKEY|ShiftMask,             XK_k,  tagtonext,      {0} },
+    { MODKEY|ShiftMask,             XK_j,   tagtoprev,      {0} },
 
     // open programs
     { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
