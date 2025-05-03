@@ -14,6 +14,10 @@ lspconfig_defaults.capabilities = vim.tbl_deep_extend(
   require('cmp_nvim_lsp').default_capabilities()
 )
 
+vim.diagnostic.config({
+  virtual_text = true -- for in-line errors/warnings
+})
+
 -- This is where you enable features that only work
 -- if there is a language server active in the file
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -26,6 +30,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
     vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
     vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    vim.keymap.set('n', '<F3>', '<cmd>lua vim.diagnostic.open_float()<cr>', opts) -- shows errors/warnings
   end,
 })
 
@@ -55,6 +60,7 @@ require('lspconfig').lua_ls.setup({
 
 require('lspconfig').rust_analyzer.setup({})
 require('lspconfig').clangd.setup({})
+require('lspconfig').ts_ls.setup({})
 require('lspconfig').asm_lsp.setup({})
 
 -- asm-lsp gen-config
