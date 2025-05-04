@@ -95,6 +95,8 @@ n/N - scroll back/forth search findings
 
 dd - delete line
 
+D - delete to end of line
+
 ctrl-j/ctrl-k - move lines up/down (custom rebind)
 
 gg - top of file
@@ -140,6 +142,5 @@ ctrl-a - increment a number
 ctrl-x - decrement a number
 
 ~ - switch capitalisation
-
 
 ctrl-w-w switch tabs
