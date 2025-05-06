@@ -30,7 +30,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
     vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
     vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-    vim.keymap.set('n', '<F3>', '<cmd>lua vim.diagnostic.open_float()<cr>', opts) -- shows errors/warnings
+    vim.keymap.set('n', '<F3>', '<cmd>lua vim.diagnostic.open_float({border = "rounded"})<cr>', opts) -- shows errors/warnings
+
   end,
 })
 
