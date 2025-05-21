@@ -42,7 +42,7 @@ chmod +x /home/connor/.xsession
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd
 paru -S --noconfirm brave-bin discord obsidian flameshot sagemath thunar konsole
 
-# just for audio effect (play file.mp3
+# just for audio effect ('play file.mp3')
 paru -S --noconfirm sox twolame
 
 # python setup
