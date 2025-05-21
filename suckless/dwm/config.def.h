@@ -92,8 +92,9 @@ static const char *upvol[]      = { "/usr/bin/amixer",  "set", "Master", "5%+", 
 static const char *downvol[]    = { "/usr/bin/amixer",  "set", "Master", "5%-", NULL };
 static const char *mutevol[]    = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
 */
-static const char *upvol[] = { "/usr/bin/pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
-static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
+
+static const char *upvol[] = { "/home/connor/.upvol.sh", NULL };
+static const char *downvol[] = { "/home/connor/.downvol.sh", NULL };
 static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
 
 
@@ -207,4 +208,3 @@ static const Button buttons[] = {
     { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
     { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
