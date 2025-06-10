@@ -71,6 +71,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *terminal[]  = { "kitty", NULL };
 static const char *terminal_lastdir[]  = { "/bin/sh", "-c", "kitty -d $(cat /tmp/lastdir)", NULL };
 static const char *discord[]  = { "discord", NULL };
+static const char *file_explorer[]  = { "thunar", NULL };
 static const char *browser1[]  = { "brave", NULL };
 static const char *browser2[]  = { "google-chrome-stable", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
@@ -143,6 +144,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_Return, spawn,          {.v = terminal} },
     { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = terminal_lastdir} },
     { MODKEY,                       XK_1,      spawn,          {.v = discord} },
+    { MODKEY,                       XK_e,      spawn,          {.v = file_explorer} },
     { MODKEY,                       XK_2,      spawn,          {.v = browser1} },
     { MODKEY,                       XK_3,      spawn,          {.v = browser2} },
     { MODKEY,                       XK_f,      spawn,          {.v = flameshot} },
@@ -208,3 +210,4 @@ static const Button buttons[] = {
     { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
     { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
+
