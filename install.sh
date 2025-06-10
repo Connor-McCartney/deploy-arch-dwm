@@ -14,7 +14,7 @@ DISK="/dev/nvme0n1"
 # UEFI
 printf "g\nn\n1\n\n+256M\nt\n1\nn\n2\n\n+16G\nt\n2\n19\nn\n3\n\n\nw\n" | fdisk $DISK  
 mkfs.vfat -F 32 "$DISK""1"
-mount "$DISK""1" /boot
+mount "$DISK""1" /mnt/boot
 mkfs.ext4 "$DISK""3"
 mkswap "$DISK""2"
 swapon "$DISK""2"
