@@ -41,6 +41,7 @@ chmod +x /home/connor/.xsession
 
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd ttf-comic-mono-git
 paru -S --noconfirm brave-bin discord obsidian flameshot sagemath thunar kitty google-chrome
+paru -S --noconfirm gvfs usbutils
 
 # just for audio effect ('play file.mp3')
 paru -S --noconfirm sox twolame
