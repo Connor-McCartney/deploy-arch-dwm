@@ -2,7 +2,6 @@ set -e
 
 #DISK="/dev/vda"
 #DISK="/dev/sda"
-DISK="/dev/nvme0n1"
 
 
 ln -sf /usr/share/zoneinfo/Australia/Brisbane /etc/localtime
