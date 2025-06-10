@@ -24,7 +24,7 @@ printf 'Section "ServerFlags"\n\tOption "BlankTime" "0"\nEndSection\n' > /etc/X1
 # GRUB
 printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=1 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
 #  grub-install $DISK # BIOS
-grub-install --target=x86_64-efi --efi-directory=/boot # UEFI
+pacman -S efibootmgr --noconfirm; mount /dev/nvme0n1p1 /boot; grub-install --target=x86_64-efi --efi-directory=/boot # UEFI
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # lightdm auto-login
