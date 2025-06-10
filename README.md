@@ -19,6 +19,8 @@ https://dwm.suckless.org/patches/attachbelow/
 
 https://dwm.suckless.org/patches/alpha/
 
+https://dwm.suckless.org/patches/windowmap/
+
 (slstatus) https://tools.suckless.org/slstatus/patches/alsa/
 
 <br>
