@@ -29,7 +29,7 @@ chmod +x install.sh
 paru -S --noconfirm feh
 
 # compositor (for transparency, rounded corners, other effects)
-paru -S --noconfirm picom
+paru -S --noconfirm picom-ftlabs-git
 
 #printf "exec dwm" > /home/connor/.xinitrc # technically not needed, it's just to be able to run 'startx'
 
