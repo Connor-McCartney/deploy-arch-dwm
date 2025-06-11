@@ -53,3 +53,4 @@ C() {
     export FZF_DEFAULT_COMMAND="fd --type d --strip-cwd-prefix --hidden --follow --exclude .git"
     cd $(/bin/fzf --bind "ctrl-o:down,tab:accept")
 }
+[[ "$PWD" == "/home/connor" ]] && cd t
