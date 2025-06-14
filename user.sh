@@ -56,7 +56,7 @@ python -m venv /home/connor/.p
 /usr/bin/sage --pip install pycryptodome pwntools --break-system-packages
 
 # LSPs
-paru -S --noconfirm clang pyright lua-language-server asm-lsp  # rust gets installed as a dependancy
+paru -S --noconfirm clang pyright lua-language-server asm-lsp rust-analyzer # rust gets installed as a dependancy
 
 # Packer
 # https://github.com/wbthomason/packer.nvim
