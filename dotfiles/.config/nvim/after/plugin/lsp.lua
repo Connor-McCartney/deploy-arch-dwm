@@ -64,7 +64,7 @@ require('lspconfig').ts_ls.setup({})
 require('lspconfig').asm_lsp.setup({})
 
 -- asm-lsp gen-config
--- put the .asm-lsp.toml in ur proect dir
+-- put the .asm-lsp.toml in ur project dir
 
 -- gas (.s):
 
