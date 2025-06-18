@@ -31,7 +31,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
     vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
     vim.keymap.set('n', '<F3>', '<cmd>lua vim.diagnostic.open_float({border = "rounded"})<cr>', opts) -- shows errors/warnings
-
   end,
 })
 
@@ -108,8 +107,14 @@ cmp.setup({
     mapping = cmp_mappings,
     experimental = { ghost_text = true },
     window = {
-        completion = cmp.config.window.bordered({border = "rounded"}),
-        documentation = cmp.config.window.bordered({border = "rounded"}),
+        completion = cmp.config.window.bordered({
+            border = "rounded",
+        }),
+        documentation = cmp.config.window.bordered({
+            border = "rounded",
+            zindex = 1,
+        }),
+
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp'},
