@@ -1,4 +1,3 @@
-// gcc a.c -lX11 -lXrender -lm -lXtst
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
