@@ -1709,6 +1709,7 @@ run(void)
 	XEvent ev;
 	/* main event loop */
 	XSync(dpy, False);
+    system("/home/connor/suckless/bongocat/bongocat &");
 	while (running && !XNextEvent(dpy, &ev))
 		if (handler[ev.type])
 			handler[ev.type](&ev); /* call handler */
