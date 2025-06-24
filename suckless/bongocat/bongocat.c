@@ -1,3 +1,4 @@
+// gcc a.c -lX11 -lXrender -lm -lXtst
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
@@ -93,17 +94,17 @@ int run() {
     ///////////////////////////////
     // load image
     int img_w, img_h, img_channels;
-    unsigned char* data_left = stbi_load("left.png", &img_w, &img_h, &img_channels, 4);
+    unsigned char* data_left = stbi_load("/home/connor/suckless/bongocat/left.png", &img_w, &img_h, &img_channels, 4);
     if (!data_left) {
         fprintf(stderr, "Failed to load image\n");
         return 1;
     }
-    unsigned char* data_right = stbi_load("right.png", &img_w, &img_h, &img_channels, 4);
+    unsigned char* data_right = stbi_load("/home/connor/suckless/bongocat/right.png", &img_w, &img_h, &img_channels, 4);
     if (!data_right) {
         fprintf(stderr, "Failed to load image\n");
         return 1;
     }
-    unsigned char* data_rest = stbi_load("rest.png", &img_w, &img_h, &img_channels, 4);
+    unsigned char* data_rest = stbi_load("/home/connor/suckless/bongocat/rest.png", &img_w, &img_h, &img_channels, 4);
     if (!data_rest) {
         fprintf(stderr, "Failed to load image\n");
         return 1;
