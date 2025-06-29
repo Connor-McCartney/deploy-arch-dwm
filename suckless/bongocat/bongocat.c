@@ -107,8 +107,8 @@ int run() {
 
     int screen_height = DisplayHeight(dpy, screen);
     int screen_width = DisplayWidth(dpy, screen);
-    const int win_w = 600;
-    const int win_h = 200;
+    const int win_w = 380;
+    const int win_h = 90;
     Window win = XCreateWindow(
         dpy, root,
 //        screen_width-win_w, screen_height-win_h, win_w, win_h,
@@ -139,7 +139,7 @@ int run() {
     image_t k7 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k7.png");
     image_t k8 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k8.png");
 
-    Pixmap img_pixmap = XCreatePixmap(dpy, win, 600, 200, vinfo.depth);
+    Pixmap img_pixmap = XCreatePixmap(dpy, win, win_w, win_h, vinfo.depth);
     GC gc = XCreateGC(dpy, img_pixmap, 0, NULL);
     Picture img_picture = XRenderCreatePicture(dpy, img_pixmap, fmt, 0, NULL);
 
@@ -149,8 +149,8 @@ int run() {
     int kuromi_animated_offset = 200;
     int cat_offset = 300;
 
-    XPutImage(dpy, img_pixmap, gc, cinna.ximage, 0, 0, cinna_offset, 200 -79, cinna.img_w, cinna.img_h);
-    XPutImage(dpy, img_pixmap, gc, kuromi_sitting.ximage, 0, 0, kuromi_sitting_offset, 200 - 89, kuromi_sitting.img_w, kuromi_sitting.img_h);
+    XPutImage(dpy, img_pixmap, gc, cinna.ximage, 0, 0, cinna_offset, win_h -79, cinna.img_w, cinna.img_h);
+    XPutImage(dpy, img_pixmap, gc, kuromi_sitting.ximage, 0, 0, kuromi_sitting_offset, win_h - 89, kuromi_sitting.img_w, kuromi_sitting.img_h);
 
     clock_t start = clock();
     int msec;
@@ -158,46 +158,46 @@ int run() {
         clock_t difference = clock() - start;
         msec = difference * 1000 * 1000 / CLOCKS_PER_SEC;
         if (msec < 10000) {
-            XPutImage(dpy, img_pixmap, gc, k1.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k1.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec < 20000) {
-            XPutImage(dpy, img_pixmap, gc, k2.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k2.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec < 40000) {
-            XPutImage(dpy, img_pixmap, gc, k3.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k3.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec < 50000) {
-            XPutImage(dpy, img_pixmap, gc, k2.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k2.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec < 70000) {
-            XPutImage(dpy, img_pixmap, gc, k4.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k4.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec < 80000) {
-            XPutImage(dpy, img_pixmap, gc, k5.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k5.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec < 90000) {
-            XPutImage(dpy, img_pixmap, gc, k6.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k6.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec < 100000) {
-            XPutImage(dpy, img_pixmap, gc, k7.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k7.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec < 110000) {
-            XPutImage(dpy, img_pixmap, gc, k8.ximage, 0, 0, kuromi_animated_offset, 200 - 95, k1.img_w, k1.img_h);
+            XPutImage(dpy, img_pixmap, gc, k8.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
         } else if (msec > 130000) {
             start = clock();
         }
 
 
         // Clear window to transparent
-        XRectangle clear_rect = {0, 0, 600, 200};
+        XRectangle clear_rect = {0, 0, win_w, win_h};
         XRenderFillRectangles(dpy, PictOpSrc, pict, &background, &clear_rect, 1);
 
         if (*any_key_pressed == 1) {
             if (rand() % 2) {
-                XPutImage(dpy, img_pixmap, gc, cat_left.ximage, 0, 0, cat_offset, 200 - 67, cat_left.img_w, cat_left.img_h);
+                XPutImage(dpy, img_pixmap, gc, cat_left.ximage, 0, 0, cat_offset, win_h - 67, cat_left.img_w, cat_left.img_h);
             } else {
-                XPutImage(dpy, img_pixmap, gc, cat_right.ximage, 0, 0, cat_offset, 200 - 67, cat_right.img_w, cat_right.img_h);
+                XPutImage(dpy, img_pixmap, gc, cat_right.ximage, 0, 0, cat_offset, win_h- 67, cat_right.img_w, cat_right.img_h);
             }
 
-            XRenderComposite(dpy, PictOpOver, img_picture, None, pict, 0, 0, 0, 0, 0, 0, 600, 200); 
+            XRenderComposite(dpy, PictOpOver, img_picture, None, pict, 0, 0, 0, 0, 0, 0, win_w, win_h); 
             XFlush(dpy);
             usleep(100000);
             *any_key_pressed = 0;
         } 
-        XPutImage(dpy, img_pixmap, gc, cat_rest.ximage, 0, 0, cat_offset, 200 - 67, cat_rest.img_w, cat_rest.img_h);
-        XRenderComposite(dpy, PictOpOver, img_picture, None, pict, 0, 0, 0, 0, 0, 0, 600, 200); 
+        XPutImage(dpy, img_pixmap, gc, cat_rest.ximage, 0, 0, cat_offset, win_h - 67, cat_rest.img_w, cat_rest.img_h);
+        XRenderComposite(dpy, PictOpOver, img_picture, None, pict, 0, 0, 0, 0, 0, 0, win_w, win_h); 
 
         XFlush(dpy);
         usleep(16000);  
