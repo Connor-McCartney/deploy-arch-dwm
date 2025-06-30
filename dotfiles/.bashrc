@@ -27,6 +27,10 @@ alias s=sage
 alias xx="nvim x.sage"
 alias x="sage x.sage"
 
+cx() {
+  chmod +x "$1"
+}
+
 cd() {
     command cd $1
     [[ "$PWD" != "/home/connor/t" ]] && printf $(pwd) > /tmp/lastdir
