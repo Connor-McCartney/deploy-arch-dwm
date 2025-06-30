@@ -21,7 +21,15 @@ https://dwm.suckless.org/patches/alpha/
 
 https://dwm.suckless.org/patches/windowmap/
 
-(slstatus) https://tools.suckless.org/slstatus/patches/alsa/
+windowmap introduces some issues: 
+
+> <https://www.reddit.com/r/suckless/comments/1bnrowd/dwm_focus_issues_when_cursor_is_over_root_window/>
+
+> (slstatus) https://tools.suckless.org/slstatus/patches/alsa/
+
+> ```
+> In the view function, the bottom two lines (2447/2448) of focus and arrange; just swap these two lines so that it does an arrange first and then focus. Should work.
+> ```
 
 <br>
 
