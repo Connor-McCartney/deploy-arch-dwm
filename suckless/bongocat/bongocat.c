@@ -1,3 +1,4 @@
+#include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
@@ -13,6 +14,9 @@
 #include "stb_image.h"
 
 int *any_key_pressed;
+int *win_key_pressed;
+int *shift_key_pressed;
+int *b_key_pressed;
 
 void key_pressed_cb(XPointer arg, XRecordInterceptData *d) {
     if (d->category != XRecordFromServer)
@@ -26,6 +30,26 @@ void key_pressed_cb(XPointer arg, XRecordInterceptData *d) {
         switch (type) {
             case KeyPress:
                 *any_key_pressed = 1;
+                if (key == 133) {
+                    *win_key_pressed = 1;
+                }
+                if (key == 56) {
+                    *b_key_pressed = 1;
+                }
+                if (key == 50) {
+                    *shift_key_pressed = 1;
+                }
+                break;
+            case KeyRelease:
+                if (key == 133) {
+                    *win_key_pressed = 0;
+                }
+                if (key == 56) {
+                    *b_key_pressed = 0;
+                }
+                if (key == 50) {
+                    *shift_key_pressed = 0;
+                }
                 break;
             default:
                 break;
@@ -154,7 +178,23 @@ int run() {
 
     clock_t start = clock();
     int msec;
+    int toggle_bar = 0;
     while (1) {
+        if (*win_key_pressed && *b_key_pressed && *shift_key_pressed) {
+            if (toggle_bar == 1) {
+                XMoveResizeWindow(dpy, win, 0, screen_height - win_h, win_w, win_h);
+                *b_key_pressed = 0;
+                *shift_key_pressed = 0;
+                *win_key_pressed = 0;
+                toggle_bar = 0;
+            } else {
+                XMoveResizeWindow(dpy, win, 0, screen_height-win_h+100, win_w, win_h);
+                *b_key_pressed = 0;
+                *shift_key_pressed = 0;
+                *win_key_pressed = 0;
+                toggle_bar = 1;
+            }
+        }
         clock_t difference = clock() - start;
         msec = difference * 1000 * 1000 / CLOCKS_PER_SEC;
         if (msec < 10000) {
@@ -210,10 +250,11 @@ int run() {
 }
 
 int main() {
-    any_key_pressed = mmap(NULL, sizeof(int), 
-                      PROT_READ | PROT_WRITE,
-                      MAP_SHARED | MAP_ANONYMOUS,
-                      -1, 0);
+    any_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    win_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    b_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    shift_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+
     if (fork()) {
         scan();
     } else {
