@@ -62,6 +62,8 @@ Win-left-click move window
 
 Win-right-click resize window
 
+Win-middle-click tile/untile window
+
 <br>
 
 # Alacritty keybinds
