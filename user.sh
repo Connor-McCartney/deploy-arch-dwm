@@ -66,7 +66,7 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvi
 
 
 # change gtk themes by running nwg-look
-paru -S --noconfirm adwaita-dark
+paru -S --noconfirm arc-gtk-theme
 paru -S --noconfirm papirus-folders
 papirus-folders -C magenta
 paru -S --noconfirm kvantum nwg-look 
