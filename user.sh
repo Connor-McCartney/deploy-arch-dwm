@@ -65,4 +65,14 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvi
 # nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 
+# change gtk themes by running nwg-look
+paru -S --noconfirm adwaita-dark
+paru -S --noconfirm papirus-folders
+papirus-folders -C magenta
+paru -S --noconfirm kvantum nwg-look 
+
+# file previews 
+paru -S --noconfirm paru -S tumbler ffmpegthumbnailer libopenraw tumbler-plugins-extra
+
+
 rm /home/connor/user.sh
