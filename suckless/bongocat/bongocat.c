@@ -168,10 +168,10 @@ int run() {
     Picture img_picture = XRenderCreatePicture(dpy, img_pixmap, fmt, 0, NULL);
 
 
-    int cinna_offset = 0;
-    int kuromi_sitting_offset = 100;
-    int kuromi_animated_offset = 200;
-    int cat_offset = 300;
+    int cat_offset = 0;
+    int cinna_offset = 100;
+    int kuromi_sitting_offset = 200;
+    int kuromi_animated_offset = 300;
 
     XPutImage(dpy, img_pixmap, gc, cinna.ximage, 0, 0, cinna_offset, win_h -79, cinna.img_w, cinna.img_h);
     XPutImage(dpy, img_pixmap, gc, kuromi_sitting.ximage, 0, 0, kuromi_sitting_offset, win_h - 89, kuromi_sitting.img_w, kuromi_sitting.img_h);
