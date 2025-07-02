@@ -769,9 +769,11 @@ drawbar(Monitor *m)
 				urg & 1 << i);
 		x += w;
 	}
-	w = TEXTW(m->ltsymbol);
-	drw_setscheme(drw, scheme[SchemeNorm]);
-	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
+
+    // layout ([]=, ><>, [M] etc)
+	//w = TEXTW(m->ltsymbol);
+	//drw_setscheme(drw, scheme[SchemeNorm]);
+	//x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
     // Draw kuromi
     enum { k_grey, k_purple, k_white, k_black};
@@ -2466,7 +2468,7 @@ view(const Arg *arg)
 	if (arg->ui & TAGMASK)
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
     arrange(selmon);
-	focus(NULL);
+    focus(NULL);
 }
 
 void
