@@ -1,24 +1,27 @@
 set -e
 
+# 1. BIOS
 #DISK="/dev/vda"
 #DISK="/dev/sda"
-DISK="/dev/nvme0n1"
-
-# BIOS
 #printf "o\nn\n\n\n\n+8G\nn\n\n\n\n\nt\n1\n82\na\n2\nw\n" | fdisk $DISK  
 #mkswap "$DISK""1"
 #mkfs.ext4 "$DISK""2"
 #mount "$DISK""2" /mnt
 #swapon "$DISK""1"
 
-# UEFI
+# 2. UEFI
+DISK="/dev/nvme0n1"
 printf "g\nn\n1\n\n+256M\nt\n1\nn\n2\n\n+16G\nt\n2\n19\nn\n3\n\n\nw\n" | fdisk $DISK  
-mkfs.vfat -F 32 "$DISK""1"
-mount "$DISK""1" /mnt/boot
-mkfs.ext4 "$DISK""3"
-mkswap "$DISK""2"
-swapon "$DISK""2"
-mount "$DISK""3" /mnt
+mkfs.vfat -F 32 "$DISK""p1"
+mount "$DISK""p1" /mnt/boot
+mkfs.ext4 "$DISK""p3"
+mkswap "$DISK""p2"
+swapon "$DISK""p2"
+mount "$DISK""p3" /mnt
+
+# 3. UEFI + LUKS
+cryptsetup luksFormat "$DISK""p3" 
+cryptsetup open "$DISK""p3" cryptlvm 
 
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
