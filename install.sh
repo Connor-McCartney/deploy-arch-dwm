@@ -10,8 +10,20 @@ set -e
 #swapon "$DISK""1"
 
 # 2. UEFI
+#DISK="/dev/nvme0n1"
+#printf "g\nn\n1\n\n+256M\nt\n1\nn\n2\n\n+16G\nt\n2\n19\nn\n3\n\n\nw\n" | fdisk $DISK  
+#mkfs.vfat -F 32 "$DISK""p1"
+#mount "$DISK""p1" /mnt/boot
+#mkfs.ext4 "$DISK""p3"
+#mkswap "$DISK""p2"
+#swapon "$DISK""p2"
+#mount "$DISK""p3" /mnt
+
+# 3. UEFI + LUKS
 DISK="/dev/nvme0n1"
 printf "g\nn\n1\n\n+256M\nt\n1\nn\n2\n\n+16G\nt\n2\n19\nn\n3\n\n\nw\n" | fdisk $DISK  
+cryptsetup luksFormat "$DISK""p3" 
+cryptsetup open "$DISK""p3" cryptlvm 
 mkfs.vfat -F 32 "$DISK""p1"
 mount "$DISK""p1" /mnt/boot
 mkfs.ext4 "$DISK""p3"
@@ -19,7 +31,6 @@ mkswap "$DISK""p2"
 swapon "$DISK""p2"
 mount "$DISK""p3" /mnt
 
-# 3. UEFI + LUKS
 cryptsetup luksFormat "$DISK""p3" 
 cryptsetup open "$DISK""p3" cryptlvm 
 
