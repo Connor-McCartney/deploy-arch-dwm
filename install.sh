@@ -35,9 +35,6 @@ mkswap /dev/vg1/swap
 swapon /dev/vg1/swap
 mount /dev/vg1/root /mnt
 
-cryptsetup luksFormat "$DISK""p3" 
-cryptsetup open "$DISK""p3" cryptlvm 
-
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 cd /mnt
