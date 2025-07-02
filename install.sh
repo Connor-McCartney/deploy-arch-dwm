@@ -22,8 +22,9 @@ set -e
 # 3. UEFI + LUKS
 DISK="/dev/nvme0n1"
 printf "g\nn\n1\n\n+256M\nt\n1\nn\n2\n\n+16G\nt\n2\n19\nn\n3\n\n\nw\n" | fdisk $DISK  
-cryptsetup luksFormat "$DISK""p3" 
-cryptsetup open "$DISK""p3" cryptlvm 
+cryptsetup luksFormat "$DISK""p3"
+cryptsetup open "$DISK""p3" cryptlvm
+pvcreate /dev/mapper/cryptlvm
 mkfs.vfat -F 32 "$DISK""p1"
 mount "$DISK""p1" /mnt/boot
 mkfs.ext4 "$DISK""p3"
