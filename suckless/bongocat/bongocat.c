@@ -3,12 +3,15 @@
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 #include <X11/extensions/Xrender.h>
+#include <X11/XKBlib.h>
+#include <X11/extensions/record.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
 #include <sys/mman.h>
-#include <X11/XKBlib.h>
-#include <X11/extensions/record.h>
+#include <string.h>
+#include <sys/time.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -18,44 +21,35 @@ int *win_key_pressed;
 int *shift_key_pressed;
 int *b_key_pressed;
 
+typedef struct {
+    int img_w;
+    int img_h;
+    XImage* ximage;
+    Pixmap pix;
+    Picture pic;
+} image_t;
+
 void key_pressed_cb(XPointer arg, XRecordInterceptData *d) {
     if (d->category != XRecordFromServer)
         return;
-    
+
     int key = ((unsigned char*) d->data)[1];
     int type = ((unsigned char*) d->data)[0] & 0x7F;
     int repeat = d->data[2] & 1;
 
-    if(!repeat) {
-        switch (type) {
-            case KeyPress:
-                *any_key_pressed = 1;
-                if (key == 133) {
-                    *win_key_pressed = 1;
-                }
-                if (key == 56) {
-                    *b_key_pressed = 1;
-                }
-                if (key == 50) {
-                    *shift_key_pressed = 1;
-                }
-                break;
-            case KeyRelease:
-                if (key == 133) {
-                    *win_key_pressed = 0;
-                }
-                if (key == 56) {
-                    *b_key_pressed = 0;
-                }
-                if (key == 50) {
-                    *shift_key_pressed = 0;
-                }
-                break;
-            default:
-                break;
+    if (!repeat) {
+        if (type == KeyPress) {
+            *any_key_pressed = 1;
+            if (key == 133) *win_key_pressed = 1;
+            if (key == 56)  *b_key_pressed = 1;
+            if (key == 50)  *shift_key_pressed = 1;
+        } else if (type == KeyRelease) {
+            if (key == 133) *win_key_pressed = 0;
+            if (key == 56)  *b_key_pressed = 0;
+            if (key == 50)  *shift_key_pressed = 0;
         }
     }
-    XRecordFreeData (d);
+    XRecordFreeData(d);
 }
 
 void scan() {
@@ -72,36 +66,29 @@ void scan() {
     XRecordEnableContext(dpy, rc, key_pressed_cb, NULL);
 }
 
-struct image_s {
-    int img_w; 
-    int img_h;
-    XImage* ximage;
-} typedef image_t;
-
-image_t img_load(Display* dpy, XVisualInfo vinfo, char* path) {
-    int img_w, img_h, img_channels;
-    unsigned char* data = stbi_load(path, &img_w, &img_h, &img_channels, 4);
+image_t img_load(Display* dpy, Window win, XVisualInfo vinfo, XRenderPictFormat* fmt, const char* path) {
+    int w, h, c;
+    unsigned char* data = stbi_load(path, &w, &h, &c, 4);
     if (!data) {
-        fprintf(stderr, "Failed to load image\n");
+        fprintf(stderr, "image load failed: %s\n", path);
         exit(1);
     }
 
-    // fix cuz red and blue seem swapped...
-    for (int i = 0, n = img_w * img_h; i < n; i++) {
-        unsigned char r, g, b, a;
-        unsigned char *px = data + 4*i;
-        r = px[0]; g = px[1]; b = px[2]; a = px[3];
-        px[0] = b;
-        px[2] = r;
+    for (int i = 0; i < w * h; ++i) {
+        unsigned char* px = data + 4 * i;
+        unsigned char tmp = px[0];
+        px[0] = px[2];
+        px[2] = tmp;
     }
 
-    XImage* ximage = XCreateImage(
-        dpy, vinfo.visual, vinfo.depth, ZPixmap, 0,
-        (char*)data, img_w, img_h, 32, 0
-    );
+    XImage* xi = XCreateImage(dpy, vinfo.visual, vinfo.depth, ZPixmap, 0,
+                               (char*)data, w, h, 32, 0);
+    Pixmap pix = XCreatePixmap(dpy, win, w, h, vinfo.depth);
+    GC gc = XCreateGC(dpy, pix, 0, NULL);
+    XPutImage(dpy, pix, gc, xi, 0, 0, 0, 0, w, h);
+    Picture pic = XRenderCreatePicture(dpy, pix, fmt, 0, NULL);
 
-    image_t ret = {img_w, img_h, ximage};
-    return ret;
+    return (image_t){w, h, xi, pix, pic};
 }
 
 int run() {
@@ -114,150 +101,107 @@ int run() {
     int screen = DefaultScreen(dpy);
     Window root = RootWindow(dpy, screen);
 
-    // Find a 32-bit TrueColor visual (ARGB)
     XVisualInfo vinfo;
     if (!XMatchVisualInfo(dpy, screen, 32, TrueColor, &vinfo)) {
-        fprintf(stderr, "No 32-bit TrueColor visual available\n");
+        fprintf(stderr, "No ARGB visual\n");
         return 1;
     }
 
-    // Setup window attributes
     XSetWindowAttributes attrs;
     attrs.colormap = XCreateColormap(dpy, root, vinfo.visual, AllocNone);
-    attrs.background_pixel = 0x00000000;
+    attrs.background_pixel = 0;
     attrs.border_pixel = 0;
     attrs.override_redirect = True;
 
-
-    int screen_height = DisplayHeight(dpy, screen);
-    int screen_width = DisplayWidth(dpy, screen);
-    const int win_w = 380;
-    const int win_h = 90;
-    Window win = XCreateWindow(
-        dpy, root,
-//        screen_width-win_w, screen_height-win_h, win_w, win_h,
-        0, screen_height-win_h, win_w, win_h,
-        0, vinfo.depth, InputOutput, vinfo.visual,
-        CWColormap | CWBackPixel | CWBorderPixel | CWOverrideRedirect,
-        &attrs
-    );
-
+    int win_w = 380, win_h = 90;
+    int screen_h = DisplayHeight(dpy, screen);
+    Window win = XCreateWindow(dpy, root, 0, screen_h - win_h, win_w, win_h,
+                               0, vinfo.depth, InputOutput, vinfo.visual,
+                               CWColormap | CWBackPixel | CWBorderPixel | CWOverrideRedirect,
+                               &attrs);
     XMapWindow(dpy, win);
+
     XRenderPictFormat* fmt = XRenderFindVisualFormat(dpy, vinfo.visual);
     Picture pict = XRenderCreatePicture(dpy, win, fmt, 0, NULL);
-    XRenderColor background = {0, 0, 0, 0}; // transparant
-    //XRenderColor background = {0, 0xffff, 0, 0xffff}; // transparant
+    XRenderColor transparent = {0, 0, 0, 0};
 
-    image_t cat_left = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/left.png");
-    image_t cat_right = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/right.png");
-    image_t cat_rest = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/rest.png");
-    image_t kuromi_sitting = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/kuromi_sitting.png");
-    image_t cinna = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/cinna.png");
-
-    image_t k1 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k1.png");
-    image_t k2 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k2.png");
-    image_t k3 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k3.png");
-    image_t k4 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k4.png");
-    image_t k5 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k5.png");
-    image_t k6 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k6.png");
-    image_t k7 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k7.png");
-    image_t k8 = img_load(dpy, vinfo, "/home/connor/suckless/bongocat/k8.png");
-
-    Pixmap img_pixmap = XCreatePixmap(dpy, win, win_w, win_h, vinfo.depth);
-    GC gc = XCreateGC(dpy, img_pixmap, 0, NULL);
-    Picture img_picture = XRenderCreatePicture(dpy, img_pixmap, fmt, 0, NULL);
-
-
-    int cat_offset = 0;
-    int cinna_offset = 100;
-    int kuromi_sitting_offset = 200;
-    int kuromi_animated_offset = 300;
-
-    XPutImage(dpy, img_pixmap, gc, cinna.ximage, 0, 0, cinna_offset, win_h -79, cinna.img_w, cinna.img_h);
-    XPutImage(dpy, img_pixmap, gc, kuromi_sitting.ximage, 0, 0, kuromi_sitting_offset, win_h - 89, kuromi_sitting.img_w, kuromi_sitting.img_h);
-
-    clock_t start = clock();
-    int msec;
-    int toggle_bar = 0;
-    while (1) {
-        if (*win_key_pressed && *b_key_pressed && *shift_key_pressed) {
-            if (toggle_bar == 1) {
-                XMoveResizeWindow(dpy, win, 0, screen_height - win_h, win_w, win_h);
-                *b_key_pressed = 0;
-                *shift_key_pressed = 0;
-                *win_key_pressed = 0;
-                toggle_bar = 0;
-            } else {
-                XMoveResizeWindow(dpy, win, 0, screen_height-win_h+100, win_w, win_h);
-                *b_key_pressed = 0;
-                *shift_key_pressed = 0;
-                *win_key_pressed = 0;
-                toggle_bar = 1;
-            }
-        }
-        clock_t difference = clock() - start;
-        msec = difference * 1000 * 1000 / CLOCKS_PER_SEC;
-        if (msec < 10000) {
-            XPutImage(dpy, img_pixmap, gc, k1.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec < 20000) {
-            XPutImage(dpy, img_pixmap, gc, k2.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec < 40000) {
-            XPutImage(dpy, img_pixmap, gc, k3.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec < 50000) {
-            XPutImage(dpy, img_pixmap, gc, k2.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec < 70000) {
-            XPutImage(dpy, img_pixmap, gc, k4.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec < 80000) {
-            XPutImage(dpy, img_pixmap, gc, k5.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec < 90000) {
-            XPutImage(dpy, img_pixmap, gc, k6.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec < 100000) {
-            XPutImage(dpy, img_pixmap, gc, k7.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec < 110000) {
-            XPutImage(dpy, img_pixmap, gc, k8.ximage, 0, 0, kuromi_animated_offset, win_h - 95, k1.img_w, k1.img_h);
-        } else if (msec > 130000) {
-            start = clock();
-        }
-
-
-        // Clear window to transparent
-        XRectangle clear_rect = {0, 0, win_w, win_h};
-        XRenderFillRectangles(dpy, PictOpSrc, pict, &background, &clear_rect, 1);
-
-        if (*any_key_pressed == 1) {
-            if (rand() % 2) {
-                XPutImage(dpy, img_pixmap, gc, cat_left.ximage, 0, 0, cat_offset, win_h - 67, cat_left.img_w, cat_left.img_h);
-            } else {
-                XPutImage(dpy, img_pixmap, gc, cat_right.ximage, 0, 0, cat_offset, win_h- 67, cat_right.img_w, cat_right.img_h);
-            }
-
-            XRenderComposite(dpy, PictOpOver, img_picture, None, pict, 0, 0, 0, 0, 0, 0, win_w, win_h); 
-            XFlush(dpy);
-            usleep(100000);
-            *any_key_pressed = 0;
-        } 
-        XPutImage(dpy, img_pixmap, gc, cat_rest.ximage, 0, 0, cat_offset, win_h - 67, cat_rest.img_w, cat_rest.img_h);
-        XRenderComposite(dpy, PictOpOver, img_picture, None, pict, 0, 0, 0, 0, 0, 0, win_w, win_h); 
-
-        XFlush(dpy);
-        usleep(16000);  
+    image_t kuromi_frames[8];
+    char buf[128];
+    for (int i = 0; i < 8; i++) {
+        snprintf(buf, sizeof(buf), "/home/connor/suckless/bongocat/k%d.png", i + 1);
+        kuromi_frames[i] = img_load(dpy, win, vinfo, fmt, buf);
     }
 
-    // Cleanup (never actually reached)
-    XRenderFreePicture(dpy, pict);
-    XCloseDisplay(dpy);
+    image_t cat_rest = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/rest.png");
+    image_t cat_left = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/left.png");
+    image_t cat_right = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/right.png");
+    image_t cinna = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/cinna.png");
+    image_t kuromi_sit = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/kuromi_sitting.png");
+
+    struct timespec ts = {0, 16 * 1000000};
+    int toggle = 0, frame = 0;
+    struct timeval last, now;
+    long paw_hold_until = 0;
+    gettimeofday(&last, NULL);
+
+    image_t cat;
+    while (1) {
+        if (*win_key_pressed && *shift_key_pressed && *b_key_pressed) {
+            XMoveWindow(dpy, win, 0, screen_h - win_h + (toggle ? 0 : 100));
+            *win_key_pressed = *shift_key_pressed = *b_key_pressed = 0;
+            toggle ^= 1;
+        }
+
+        gettimeofday(&now, NULL);
+        long now_us = now.tv_sec * 1000000 + now.tv_usec;
+        long diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
+        if (diff > 600000) {
+            frame = (frame + 1) % 8;
+            last = now;
+        }
+
+        XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, 0, 0, win_w, win_h);
+
+        XRenderComposite(dpy, PictOpOver, kuromi_frames[frame].pic, None, pict,
+                         0, 0, 0, 0, 260, -3,
+                         kuromi_frames[frame].img_w, kuromi_frames[frame].img_h);
+
+        XRenderComposite(dpy, PictOpOver, cinna.pic, None, pict,
+                         0, 0, 0, 0, 70, 12,
+                         cinna.img_w, cinna.img_h);
+
+        XRenderComposite(dpy, PictOpOver, kuromi_sit.pic, None, pict,
+                         0, 0, 0, 0, 170, 0,
+                         kuromi_sit.img_w, kuromi_sit.img_h);
+
+        if (*any_key_pressed) {
+            if (rand()%2) {
+                cat = cat_left;
+            } else {
+                cat = cat_right;
+            }
+            paw_hold_until = now_us + 50000;
+        } else if (now_us > paw_hold_until) {
+            cat = cat_rest;
+        }
+
+        XRenderComposite(dpy, PictOpOver, cat.pic, None, pict,
+                         0, 0, 0, 0, 0, 23,
+                         cat.img_w, cat.img_h);
+
+        *any_key_pressed = 0;
+        XFlush(dpy);
+        nanosleep(&ts, NULL);
+    }
     return 0;
 }
 
 int main() {
     any_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     win_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-    b_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     shift_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    b_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
-    if (fork()) {
-        scan();
-    } else {
-        run();
-    }
+    if (fork()) scan();
+    else run();
 }
