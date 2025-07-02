@@ -125,12 +125,14 @@ int run() {
     Picture pict = XRenderCreatePicture(dpy, win, fmt, 0, NULL);
     XRenderColor transparent = {0, 0, 0, 0};
 
-    image_t kuromi_frames[8];
-    char buf[128];
-    for (int i = 0; i < 8; i++) {
-        snprintf(buf, sizeof(buf), "/home/connor/suckless/bongocat/k%d.png", i + 1);
-        kuromi_frames[i] = img_load(dpy, win, vinfo, fmt, buf);
-    }
+    image_t k1 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/k1.png");
+    image_t k2 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/k2.png");
+    image_t k3 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/k3.png");
+    image_t k4 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/k4.png");
+    image_t k5 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/k5.png");
+    image_t k6 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/k6.png");
+    image_t k7 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/k7.png");
+    image_t k8 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/k8.png");
 
     image_t cat_rest = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/rest.png");
     image_t cat_left = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/left.png");
@@ -139,12 +141,13 @@ int run() {
     image_t kuromi_sit = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/kuromi_sitting.png");
 
     struct timespec ts = {0, 16 * 1000000};
-    int toggle = 0, frame = 0;
+    int toggle = 0;
     struct timeval last, now;
     long paw_hold_until = 0;
     gettimeofday(&last, NULL);
 
     image_t cat;
+    image_t kuromi_frame = k4;
     while (1) {
         if (*win_key_pressed && *shift_key_pressed && *b_key_pressed) {
             XMoveWindow(dpy, win, 0, screen_h - win_h + (toggle ? 0 : 100));
@@ -154,17 +157,39 @@ int run() {
 
         gettimeofday(&now, NULL);
         long now_us = now.tv_sec * 1000000 + now.tv_usec;
+
+
         long diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
-        if (diff > 600000) {
-            frame = (frame + 1) % 8;
+
+        if (diff < 1000000) {
+            kuromi_frame = k4;
+        } else if (diff < 1900000) {
+            kuromi_frame = k5;
+        } else if (diff < 2200000) {
+            kuromi_frame = k6;
+        } else if (diff < 2500000) {
+            kuromi_frame = k7;
+        } else if (diff < 2800000) {
+            kuromi_frame = k8;
+        } else if (diff < 4000000) {
+            kuromi_frame = k8;
+        } else if (diff < 5000000) {
+            kuromi_frame = k1;
+        } else if (diff < 5100000) {
+            kuromi_frame = k2;
+        } else if (diff < 6100000) {
+            kuromi_frame = k3;
+        } else if (diff < 6200000) {
+            kuromi_frame = k2;
+        } else {
             last = now;
         }
 
         XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, 0, 0, win_w, win_h);
 
-        XRenderComposite(dpy, PictOpOver, kuromi_frames[frame].pic, None, pict,
+        XRenderComposite(dpy, PictOpOver, kuromi_frame.pic, None, pict,
                          0, 0, 0, 0, 260, -3,
-                         kuromi_frames[frame].img_w, kuromi_frames[frame].img_h);
+                         kuromi_frame.img_w, kuromi_frame.img_h);
 
         XRenderComposite(dpy, PictOpOver, cinna.pic, None, pict,
                          0, 0, 0, 0, 70, 12,
