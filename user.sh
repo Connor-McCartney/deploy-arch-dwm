@@ -74,7 +74,7 @@ papirus-folders -C magenta
 paru -S --noconfirm kvantum nwg-look 
 
 # file previews 
-paru -S --noconfirm tumbler ffmpegthumbnailer libopenraw tumbler-plugins-extra
+paru -S --noconfirm tumbler ffmpegthumbnailer libopenraw
 
 
 rm /home/connor/user.sh
