@@ -22,6 +22,7 @@ rm -rf /tmp/deploy-arch-dwm
 # dotfiles
 nvim -v # just running some type of application will create the .local directory
 paru -S --noconfirm kitty
+kitty -v
 cd /tmp
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/dotfiles/install.sh
 chmod +x install.sh
