@@ -22,11 +22,14 @@ systemctl enable NetworkManager
 printf 'Section "Extensions"\n\tOption "DPMS" "false"\nEndSection\n' > /etc/X11/xorg.conf.d/10-extensions.conf
 printf 'Section "ServerFlags"\n\tOption "BlankTime" "0"\nEndSection\n' > /etc/X11/xorg.conf.d/10-serverflags.conf
 
-# GRUB
-printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=1 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
-grub-install $DISK # BIOS
-#pacman -S efibootmgr --noconfirm; grub-install --target=x86_64-efi --efi-directory=/boot # UEFI
-grub-mkconfig -o /boot/grub/grub.cfg
+# non-LUKS
+#printf "GRUB_TIMEOUT=1\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX=\"loglevel=1 nowatchdog nvme_load=YES fsck.mode=skip modprobe.blacklist=iTCO_wdt\"\n" > /etc/default/grub
+#grub-install $DISK # BIOS
+##pacman -S efibootmgr --noconfirm; grub-install --target=x86_64-efi --efi-directory=/boot # UEFI
+#grub-mkconfig -o /boot/grub/grub.cfg
+
+# LUKS
+printf "MODULES=()\nBINARIES=()\nFILES=()\nHOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block filesystems fsck)\n" > /etc/mkinitcpio.conf
 
 # lightdm auto-login
 pacman -S --noconfirm lightdm
