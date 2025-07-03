@@ -28,8 +28,11 @@ printf 'Section "ServerFlags"\n\tOption "BlankTime" "0"\nEndSection\n' > /etc/X1
 ##pacman -S efibootmgr --noconfirm; grub-install --target=x86_64-efi --efi-directory=/boot # UEFI
 #grub-mkconfig -o /boot/grub/grub.cfg
 
-# LUKS
+# LUKS UEFI
 printf "MODULES=()\nBINARIES=()\nFILES=()\nHOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)\n" > /etc/mkinitcpio.conf
+mkinitcpio -p linux
+
+
 
 # lightdm auto-login
 pacman -S --noconfirm lightdm
