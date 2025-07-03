@@ -4,6 +4,7 @@ cd /tmp
 git clone https://github.com/Connor-McCartney/deploy-arch-dwm
 
 
+mv /tmp/deploy-arch-dwm/dotfiles/.config/kitty
 mv /tmp/deploy-arch-dwm/dotfiles/.config/kitty/kitty.conf /home/connor/.config/kitty
 mv /tmp/deploy-arch-dwm/dotfiles/.config/konsolerc /home/connor/.config
 mv /tmp/deploy-arch-dwm/dotfiles/.local/share/konsole /home/connor/.local/share
