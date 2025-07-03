@@ -1,3 +1,6 @@
+swapoff /dev/*
+umount /dev/*
+
 set -e
 
 # 1. BIOS
