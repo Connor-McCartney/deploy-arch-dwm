@@ -29,6 +29,7 @@ vgcreate vg1 /dev/mapper/cryptlvm
 lvcreate -L 8G vg1 -n swap
 lvcreate -l 100%FREE vg1 -n root
 mkfs.vfat -F 32 "$DISK""p1"
+mkdir /mnt/boot
 mount "$DISK""p1" /mnt/boot
 mkfs.ext4 /dev/vg1/root
 mkswap /dev/vg1/swap
