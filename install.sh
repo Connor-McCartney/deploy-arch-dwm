@@ -13,6 +13,7 @@ set -e
 DISK="/dev/nvme0n1"
 printf "g\nn\n1\n\n+256M\nt\n1\nn\n2\n\n+16G\nt\n2\n19\nn\n3\n\n\nw\n" | fdisk $DISK  
 mkfs.vfat -F 32 "$DISK""p1"
+mkdir /mnt/boot
 mount "$DISK""p1" /mnt/boot
 mkfs.ext4 "$DISK""p3"
 mkswap "$DISK""p2"
