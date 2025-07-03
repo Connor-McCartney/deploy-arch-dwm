@@ -30,7 +30,7 @@ printf 'Section "ServerFlags"\n\tOption "BlankTime" "0"\nEndSection\n' > /etc/X1
 
 # LUKS UEFI
 printf "MODULES=()\nBINARIES=()\nFILES=()\nHOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)\n" > /etc/mkinitcpio.conf
-pacman -S --noconfirm thin-provisioning-tools
+pacman -S --noconfirm thin-provisioning-tools lvm2
 mkinitcpio -p linux
 
 
