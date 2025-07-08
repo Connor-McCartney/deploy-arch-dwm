@@ -3,8 +3,8 @@
 /* appearance */
 static const unsigned int rightgap  = 0;        /* my topbar gap on the right */
 static const unsigned int borderpx  = 7;        /* border pixel of windows */
-static const unsigned int gappx     = 15;        /* gaps between windows */
-static const unsigned int snap      = 15;       /* snap pixel */
+static const unsigned int gappx     = 7;        /* gaps between windows */
+static const unsigned int snap      = 0;       /* snap pixel */
 
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
