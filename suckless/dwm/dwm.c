@@ -2022,30 +2022,53 @@ tagmon(const Arg *arg)
 	sendmon(selmon->sel, dirtomon(arg->i));
 }
 
+
 void
 tagtonext(const Arg *arg)
 {
+	Client *c = selmon->sel;
 	unsigned int tmp;
 
-	if (selmon->sel == NULL)
+	if (!c)
 		return;
 
 	tmp = nexttag();
-	tag(&(const Arg){.ui = tmp });
-	view(&(const Arg){.ui = tmp });
+	unsigned int oldtags = c->tags;
+
+	tag(&(const Arg){.ui = tmp});
+	view(&(const Arg){.ui = tmp});
+
+	if (!(c->tags & TAGMASK))
+		c->tags = oldtags; // if tag() failed, revert
+
+	if (ISVISIBLE(c)) {
+		focus(c);
+		restack(selmon); // force redraw + stacking
+	}
 }
 
 void
 tagtoprev(const Arg *arg)
 {
+	Client *c = selmon->sel;
 	unsigned int tmp;
 
-	if (selmon->sel == NULL)
+	if (!c)
 		return;
 
 	tmp = prevtag();
-	tag(&(const Arg){.ui = tmp });
-	view(&(const Arg){.ui = tmp });
+	unsigned int oldtags = c->tags;
+
+	tag(&(const Arg){.ui = tmp});
+	view(&(const Arg){.ui = tmp});
+
+	if (!(c->tags & TAGMASK))
+		c->tags = oldtags;
+
+	if (ISVISIBLE(c)) {
+		focus(c);
+		restack(selmon);
+	}
 }
 
 void
