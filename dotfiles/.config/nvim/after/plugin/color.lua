@@ -16,24 +16,12 @@ end
 
 
 vim.cmd("let g:sonokai_colors_override = {" ..
---string.format("'grey':   ['%s', '0'],",   HSV2RGB(270, 0.40, 1.0)) .. -- comments
-string.format("'purple': ['%s', '0'],",   HSV2RGB( 50, 0.50, 1.0)) .. -- numbers
-string.format("'yellow': ['%s', '0'],",   HSV2RGB(100, 0.50, 1.0)) .. -- strings
-string.format("'orange': ['%s', '0'],",   HSV2RGB(150, 0.50, 1.0)) .. -- struct/class vars
-string.format("'blue':   ['%s', '0'],",   HSV2RGB(200, 0.50, 1.0)) .. -- packages
-string.format("'green':  ['%s', '0'],",   HSV2RGB(250, 0.50, 1.0)) .. -- function names
-string.format("'fg':     ['%s', '0'],",   HSV2RGB(300, 0.50, 1.0)) .. -- variables
-string.format("'red':    ['%s', '250']}", HSV2RGB(350, 0.50, 1.0)))   -- keywords
-
---vim.cmd("let g:sonokai_colors_override = {" ..
-----string.format("'grey':   ['%s', '0'],",   HSV2RGB(270, 0.40, 1.0)) .. -- comments
---string.format("'purple': ['%s', '0'],",   HSV2RGB(314, 0.40, 1.0)) .. -- numbers
---string.format("'yellow': ['%s', '0'],",   HSV2RGB(194, 0.30, 1.0)) .. -- strings
---string.format("'orange': ['%s', '0'],",   HSV2RGB(218, 0.40, 1.0)) .. -- struct/class vars
---string.format("'blue':   ['%s', '0'],",   HSV2RGB(242, 0.40, 1.0)) .. -- packages
---string.format("'green':  ['%s', '0'],",   HSV2RGB(314, 0.50, 1.0)) .. -- function names
---string.format("'fg':     ['%s', '0'],",   HSV2RGB(290, 0.35, 1.0)) .. -- variables
---string.format("'red':    ['%s', '250']}", HSV2RGB(266, 0.40, 1.0)))   -- keywords
+string.format("'yellow': ['%s', '0'],",   HSV2RGB(310, 0.45, 0.9)) .. -- strings
+string.format("'green':  ['%s', '0'],",   HSV2RGB(190, 0.45, 0.9)) .. -- function names
+string.format("'blue':   ['%s', '0'],",   HSV2RGB(190, 0.45, 0.9)) .. -- packages
+string.format("'orange': ['%s', '0'],",   HSV2RGB(0  , 0.00, 1.0)) .. -- struct/class vars
+string.format("'purple': ['%s', '0'],",   HSV2RGB(260, 0.45, 0.9)) .. -- numbers
+string.format("'red':    ['%s', '250']}", HSV2RGB(220, 0.45, 0.9)))   -- keywords
 
 
 -- https://github.com/sainnhe/sonokai/blob/master/doc/sonokai.txt
