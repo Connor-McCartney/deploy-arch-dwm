@@ -13,6 +13,8 @@ return require('packer').startup(function(use)
   use 'sphamba/smear-cursor.nvim'
   use 'karb94/neoscroll.nvim'
   use 'max397574/better-escape.nvim'
+  use 'code-biscuits/nvim-biscuits'
+
 
   use {
     'nvim-treesitter/nvim-treesitter',
