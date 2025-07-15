@@ -46,7 +46,7 @@ paru -S --noconfirm brave-bin discord obsidian flameshot sagemath thunar google-
 paru -S --noconfirm gvfs usbutils
 
 # just for audio effect ('play file.mp3')
-paru -S --noconfirm sox twolame
+paru -S --noconfirm sox twolame libmad
 
 # python setup
 paru -S --noconfirm python-pip
