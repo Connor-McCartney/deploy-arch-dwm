@@ -138,16 +138,19 @@ int run() {
     image_t cat_left = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/left.png");
     image_t cat_right = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/right.png");
     image_t cinna = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/cinna.png");
-    image_t kuromi_sit = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/kuromi_sitting.png");
+    image_t kuromi_sit_1 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/kuromi_blink_1.png");
+    image_t kuromi_sit_2 = img_load(dpy, win, vinfo, fmt, "/home/connor/suckless/bongocat/kuromi_blink_2.png");
 
     struct timespec ts = {0, 16 * 1000000};
     int toggle = 0;
-    struct timeval last, now;
+    struct timeval last, now, last2, now2;
     long paw_hold_until = 0;
     gettimeofday(&last, NULL);
+    gettimeofday(&last2, NULL);
 
     image_t cat;
     image_t kuromi_frame = k4;
+    image_t kuromi_sit_frame = kuromi_sit_1;
     while (1) {
         if (*win_key_pressed && *shift_key_pressed && *b_key_pressed) {
             XMoveWindow(dpy, win, 0, screen_h - win_h + (toggle ? 0 : 100));
@@ -157,10 +160,7 @@ int run() {
 
         gettimeofday(&now, NULL);
         long now_us = now.tv_sec * 1000000 + now.tv_usec;
-
-
         long diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
-
         if (diff < 1000000) {
             kuromi_frame = k4;
         } else if (diff < 1900000) {
@@ -185,6 +185,19 @@ int run() {
             last = now;
         }
 
+
+        gettimeofday(&now2, NULL);
+        long now_us2 = now2.tv_sec * 1000000 + now2.tv_usec;
+        long diff2 = (now2.tv_sec - last2.tv_sec) * 1000000 + (now2.tv_usec - last2.tv_usec);
+        if (diff2 < 1500000) {
+            kuromi_sit_frame = kuromi_sit_1;
+        } else if (diff2 < 1700000) {
+            kuromi_sit_frame = kuromi_sit_2;
+        } else {
+            last2 = now2;
+        }
+
+
         XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, 0, 0, win_w, win_h);
 
         XRenderComposite(dpy, PictOpOver, kuromi_frame.pic, None, pict,
@@ -195,9 +208,9 @@ int run() {
                          0, 0, 0, 0, 70, 12,
                          cinna.img_w, cinna.img_h);
 
-        XRenderComposite(dpy, PictOpOver, kuromi_sit.pic, None, pict,
-                         0, 0, 0, 0, 170, 0,
-                         kuromi_sit.img_w, kuromi_sit.img_h);
+        XRenderComposite(dpy, PictOpOver, kuromi_sit_frame.pic, None, pict,
+                         0, 0, 0, 0, 185, 0,
+                         kuromi_sit_frame.img_w, kuromi_sit_frame.img_h);
 
         if (*any_key_pressed) {
             if (rand()%2) {
