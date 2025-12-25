@@ -19,6 +19,7 @@ alias pip="/home/connor/.p/bin/pip"
 alias m="sudo make clean install"
 alias untar="tar -xvzf" # or just use ut
 alias sc="printf \"\033[?25h\"" # show cursor
+alias clear="printf '\E[H\E[3J'"
 
 sage() {
     command sage $1 && rm "${1}.py"
