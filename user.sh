@@ -64,11 +64,6 @@ python -m venv /home/connor/.p
 # LSPs
 paru -S --noconfirm clang pyright lua-language-server asm-lsp rust-analyzer # rust gets installed as a dependancy
 
-# Packer
-# https://github.com/wbthomason/packer.nvim
-git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-# nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-
 
 # change gtk themes by running nwg-look
 paru -S --noconfirm arc-gtk-theme
