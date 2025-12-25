@@ -65,15 +65,32 @@ static const char unknown_str[] = "n/a";
  */
 
 // https://www.nerdfonts.com/cheat-sheet
+
+
+
+// thinkpad
+/*
 static const struct arg args[] = {
-	/* function format          argument */
+	// function format          argument 
 
  	{ cpu_perc,      "   CPU %s%%",       NULL },
- 	{ ram_perc,      "  ｜  RAM %s%%",     NULL },
- 	{ temp,          "  ｜  %s°C",         "/sys/class/thermal/thermal_zone0/temp" }, 
- 	{ vol_perc,      "  ｜  %s%%",         "Master" }, 
- 	{ wifi_perc,     "  ｜    %s%%",      "wlp3s0" }, 
- 	{ battery_perc,  "  ｜    %s%%",      "BAT0" }, //  /sys/class/power_supply
+ 	{ ram_perc,      "  | RAM %s%%",     NULL },
+ 	{ temp,          "  | %s°C",         "/sys/class/thermal/thermal_zone0/temp" }, 
+ 	{ vol_perc,      "  | %s%%",         "Master" }, 
+ 	{ wifi_perc,     "  |    %s%%",      "wlp3s0" }, 
+ 	{ battery_perc,  "  |    %s%%",      "BAT0" }, //  /sys/class/power_supply
  	{ battery_state, " %s",             "BAT0" }, //  /sys/class/power_supply
-	{ datetime,      "  ｜  %s",           "%a, %b %d  ｜  %I:%M:%S %p   " },
+	{ datetime,      "  |  %s",           "%a, %b %d  |  %I:%M:%S %p   " },
+};
+*/
+
+
+// vmware
+static const struct arg args[] = {
+	// function format          argument 
+
+ 	{ cpu_perc,      "   CPU %s%%",       NULL },
+ 	{ ram_perc,      "  | RAM %s%%",     NULL },
+ 	{ vol_perc,      "  | %s%%",         "Master" }, 
+	{ datetime,      "  |  %s",           "%a, %b %d  |  %I:%M:%S %p   " },
 };
