@@ -41,6 +41,10 @@ paru -S --noconfirm picom-ftlabs-git
 printf "#xrandr --output LVDS-1 --off\n#sleep 1\n#xrandr --output VGA-1 --auto\nfeh --bg-scale /home/connor/.wallpapers/kuromi.png\npicom -b\nslstatus &\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
 chmod +x /home/connor/.xsession
 
+cd /usr/share/fonts 
+sudo wget https://github.com/Connor-McCartney/deploy-arch-dwm/raw/refs/heads/main/dotfiles/ComicShannsMonoNerdFontMono-Regular.otf
+fc-cache -fv
+
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji #ttf-hack-nerd ttf-comic-mono-git
 paru -S --noconfirm brave-bin discord obsidian flameshot sagemath thunar google-chrome kitty
 paru -S --noconfirm gvfs usbutils
