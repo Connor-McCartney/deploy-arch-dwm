@@ -11,7 +11,7 @@ locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "arch" > /etc/hostname
 
-pacman -S --noconfirm xorg xorg-xinit xclip xautomation xorgproto
+pacman -S --noconfirm xorg xorg-xinit xclip xsel xautomation xorgproto
 pacman -S --noconfirm networkmanager neovim sudo base-devel os-prober grub vlc htop git wget ripgrep fzf bat fd
 #pacman -S --noconfirm alsa-utils # adjust with alsamixer, arrowkeys and m toggles mute
 pacman -S --noconfirm pulseaudio pavucontrol
