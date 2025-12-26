@@ -38,7 +38,7 @@ paru -S --noconfirm picom-ftlabs-git
 # add these if using a monitor
 # xrandr --output LVDS-1 --off
 # xrandr --output VGA-1 --auto
-printf "#xrandr --output LVDS-1 --off\n#sleep 1\n#xrandr --output VGA-1 --auto\nfeh --bg-scale /home/connor/.wallpapers/kuromi.png\npicom -b\nxclip &\nslstatus &\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
+printf "#xrandr --output LVDS-1 --off\n#sleep 1\n#xrandr --output VGA-1 --auto\nfeh --bg-scale /home/connor/.wallpapers/kuromi.png\npicom -b\nslstatus &\nexec dwm" > /home/connor/.xsession # needed to boot with lightdm
 chmod +x /home/connor/.xsession
 
 cd /usr/share/fonts 
