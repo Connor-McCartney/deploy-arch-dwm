@@ -10,7 +10,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 static const int attachbelow = 1;
 // NotoSansMono-Regular.ttf: "Noto Sans Mono" "Regular"
-static const char *fonts[]          = { "ComicShannsMono Nerd Font Mono:size=11" };
+static const char *fonts[]          = { "Noto Sans Mono:size=10", "ComicShannsMono Nerd Font Mono:size=11" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -73,7 +73,7 @@ static const char *terminal[]  = { "kitty", NULL };
 static const char *terminal_lastdir[]  = { "/bin/sh", "-c", "kitty -d $(cat /tmp/lastdir)", NULL };
 static const char *discord[]  = { "discord", NULL };
 static const char *file_explorer[]  = { "thunar", NULL };
-static const char *browser1[]  = { "brave", "-use-gl=egl", NULL };
+static const char *browser1[]  = { "waterfox", NULL };
 static const char *browser2[]  = { "google-chrome-stable", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
 static const char *switcher[]  = { "/bin/sh", "-c", "./.switcher.sh", NULL };
