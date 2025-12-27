@@ -45,7 +45,7 @@ cd /usr/share/fonts
 sudo wget https://github.com/Connor-McCartney/deploy-arch-dwm/raw/refs/heads/main/dotfiles/ComicShannsMonoNerdFontMono-Regular.otf
 fc-cache -fv
 
-paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji #ttf-hack-nerd ttf-comic-mono-git
+paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd #ttf-comic-mono-git
 paru -S --noconfirm brave-bin discord obsidian flameshot sagemath thunar google-chrome kitty
 paru -S --noconfirm gvfs usbutils
 
