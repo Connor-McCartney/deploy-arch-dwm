@@ -21,6 +21,7 @@
 int *win_key_pressed;
 int *shift_key_pressed;
 int *b_key_pressed;
+int *i_key_pressed;
 
 int *left_arrow_key_pressed;
 int *up_arrow_key_pressed;
@@ -82,6 +83,7 @@ void key_pressed_cb(XPointer arg, XRecordInterceptData *d) {
     if (!repeat) {
         if (type == KeyPress) {
             if (key == 133) *win_key_pressed = 1;
+            if (key == 31)  *i_key_pressed = 1;
             if (key == 56)  *b_key_pressed = 1;
             if (key == 50)  *shift_key_pressed = 1;
             if (key == 113) *left_arrow_key_pressed  = 1;
@@ -90,6 +92,7 @@ void key_pressed_cb(XPointer arg, XRecordInterceptData *d) {
             if (key == 116) *down_arrow_key_pressed  = 1;
         } else if (type == KeyRelease) {
             if (key == 133) *win_key_pressed = 0;
+            if (key == 31)  *i_key_pressed = 0;
             if (key == 56)  *b_key_pressed = 0;
             if (key == 50)  *shift_key_pressed = 0;
             if (key == 113) *left_arrow_key_pressed  = 0;
@@ -271,13 +274,34 @@ int run() {
     bool look_restore = false;
     bool idle_restore = false;
     bool automated_toggle = true;
+    bool hide_toggle = false;
     while (1) {
         on_floor = (win_h-kirby_y <= floor_height);
         gettimeofday(&now, NULL);
         diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
 
 
-        ///////////////////////////////
+
+
+        //hide toggle
+        if (*win_key_pressed && *shift_key_pressed && *b_key_pressed) {
+            XMoveWindow(dpy, win, 0, screen_h - win_h + (hide_toggle ? 0 : 100));
+            *win_key_pressed = *shift_key_pressed = *b_key_pressed = 0;
+            hide_toggle ^= 1;
+        }
+
+
+        //automated toggle
+        if (*win_key_pressed && *shift_key_pressed && *i_key_pressed) {
+            *win_key_pressed = *shift_key_pressed = *i_key_pressed = 0;
+            automated_toggle ^= 1;
+            if (automated_toggle) {
+                move_left = look_restore_left;
+                move_right = look_restore_right;
+            }
+        }
+
+
         if (automated_toggle) {
             // automated movement 
             int r = rand();
@@ -347,7 +371,7 @@ int run() {
 
 
 
-        //////////////////////////////// input stuff /////////////////////////////////////
+        //////////////////////////////// kirby input stuff /////////////////////////////////////
         if (move_right && !move_left) {
             if (on_floor) {
                 kirby_state = WALK;
@@ -456,6 +480,7 @@ int main() {
     win_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     shift_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     b_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    i_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
 
     left_arrow_key_pressed =  mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
