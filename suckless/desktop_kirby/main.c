@@ -34,6 +34,12 @@ typedef struct {
     Picture pic;
 } image_t;
 
+
+typedef struct _{
+    image_t* frames;
+    int nframes;
+} frames_t;
+
 enum kirby_states {
     IDLE, 
     WALK,
@@ -52,6 +58,12 @@ static int kirby_x;
 static int kirby_y;
 static int kirby_y_velocity;
 static int kirby_direction;
+static int animation_y_offset = 0;
+
+
+
+static struct timeval last, now;
+static long diff;
 
 void key_pressed_cb(XPointer arg, XRecordInterceptData *d) {
     if (arg){}; // just hide unused warning lol
@@ -123,6 +135,46 @@ image_t img_load(Display* dpy, Window win, XVisualInfo vinfo, XRenderPictFormat*
     return (image_t){w, h, xi, pix, pic};
 }
 
+
+frames_t load_frames(Display* dpy, Window win, XVisualInfo vinfo, XRenderPictFormat* fmt, char* folder_name, int nframes) {
+    frames_t frames = {};
+    frames.frames = malloc(sizeof(image_t) * nframes);
+
+    for (int i=0; i<nframes; i++) {
+        char filename[50];
+        snprintf(filename, 50, "sprites/%s/%d.png", folder_name, i);
+        image_t img  = img_load(dpy, win, vinfo, fmt, filename);
+        frames.frames[i] = img;
+    }
+
+    frames.nframes = nframes;
+    return frames;
+}
+
+
+
+void animate(image_t* frames, int nframes, int animation_speed, int y_offset) {
+    animation_y_offset = y_offset;
+
+    /*
+    for (int i=0; i<nframes; i++) {
+        if ((i*animation_speed) < diff && (diff < (i+1)*animation_speed)) {
+            kirby_frame = frames[i]; 
+        }
+    }
+    if (diff > nframes*animation_speed) {
+        last = now;
+    }
+    */
+
+    int frame = diff / animation_speed;
+    if (frame >= nframes) {
+        frame = 0;
+        last = now;
+    }
+    kirby_frame = frames[frame];
+}
+
 int run() {
     XTransform xf = {{
         { XDoubleToFixed(-1), 0, 0 },
@@ -177,36 +229,21 @@ int run() {
     XFixesSetWindowShapeRegion(dpy, win, ShapeInput, 0, 0, region);
     XFixesDestroyRegion(dpy, region);
 
-    image_t k0 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/idle/0.png");
-    image_t k1 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/idle/1.png");
-    image_t k2 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/idle/2.png");
-    image_t k3 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/idle/3.png");
-    image_t idle_frames[4] = {k0, k1, k2, k3};
+    frames_t idle_frames = load_frames(dpy, win, vinfo, fmt, "idle", 4);
+    frames_t walk_frames = load_frames(dpy, win, vinfo, fmt, "walk", 10);
 
-    image_t r0 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/0.png");
-    image_t r1 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/1.png");
-    image_t r2 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/2.png");
-    image_t r3 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/3.png");
-    image_t r4 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/4.png");
-    image_t r5 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/5.png");
-    image_t r6 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/6.png");
-    image_t r7 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/7.png");
-    image_t r8 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/8.png");
-    image_t r9 = img_load(dpy, win, vinfo, fmt, "/home/connor/desktop_kirby/sprites/walk/9.png");
 
-    image_t walk_frames[] = {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9};
-
-    struct timeval last, now;
     struct timeval frame_last, frame_now;
     gettimeofday(&last, NULL);
+    gettimeofday(&frame_last, NULL);
 
 
+    kirby_frame = idle_frames.frames[0];
 
-    kirby_frame = k0;
     kirby_x = 100;
     kirby_y = win_h - floor_height;
     int walk_speed = 3;
-    int animation_y_offset = 0;
+
     while (1) {
 
         if (*right_arrow_key_pressed && !*left_arrow_key_pressed) {
@@ -228,51 +265,24 @@ int run() {
         }
 
         if (*up_arrow_key_pressed && (win_h-kirby_y == floor_height))  {
-            kirby_y_velocity = -90;
+            kirby_y_velocity = -105;
         }
         kirby_y_velocity += 2; // gravity
         kirby_y += kirby_y_velocity/10;
 
-        /*
-        if (*win_key_pressed && *shift_key_pressed && *b_key_pressed) {
-            XMoveWindow(dpy, win, 0, screen_h - win_h + (toggle ? 0 : 100));
-            *win_key_pressed = *shift_key_pressed = *b_key_pressed = 0;
-            toggle ^= 1;
-        }
-        */
-
         gettimeofday(&now, NULL);
         //long now_us = now.tv_sec * 1000000 + now.tv_usec;
-        long diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
+        diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
+
+
+
 
         if (kirby_state == IDLE) {
-            animation_y_offset = 0;
-            int animation_speed = 140000;
-            int nframes = sizeof(idle_frames)/sizeof(idle_frames[0]);
-            int frame = diff / animation_speed;
-            if (frame >= nframes) {
-                frame = 0;
-                last = now;
-            }
-            kirby_frame = idle_frames[frame];
+            animate(idle_frames.frames, idle_frames.nframes, 140000, 0);
         }
-
-
         if (kirby_state == WALK) {
-            animation_y_offset = -8;
-            //int animation_speed = 80000;
-            int animation_speed = 50000;
-            int nframes = sizeof(walk_frames)/sizeof(walk_frames[0]);
-            for (int i=0; i<nframes; i++) {
-                if ((i*animation_speed) < diff && (diff < (i+1)*animation_speed)) {
-                    kirby_frame = walk_frames[i]; 
-                }
-            }
-            if (diff > nframes*animation_speed) {
-                last = now;
-            }
+            animate(walk_frames.frames, walk_frames.nframes, 50000, -8);
         }
-
 
 
 
@@ -309,6 +319,9 @@ int run() {
         //XRenderColor transparent = {0, 6553, 0, 1};
         XRenderColor transparent = {0, 0, 0, 0};
         XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, kirby_x, kirby_y+animation_y_offset, kirby_frame.img_w, kirby_frame.img_h);
+
+
+
     }
     return 0;
 }
