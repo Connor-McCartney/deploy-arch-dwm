@@ -110,7 +110,10 @@ void scan() {
     XRecordRange* rr;
     XRecordClientSpec rcs;
     XRecordContext rc;
-    Display *dpy = XOpenDisplay(NULL);
+    Display *dpy;
+    while (!(dpy = XOpenDisplay(NULL))) {
+        sleep(1);
+    }
     rr = XRecordAllocRange();
     rr->device_events.first = KeyPress;
     rr->device_events.last = ButtonReleaseMask;
@@ -151,8 +154,8 @@ frames_t load_frames(Display* dpy, Window win, XVisualInfo vinfo, XRenderPictFor
     frames.frames = malloc(sizeof(image_t) * nframes);
 
     for (int i=0; i<nframes; i++) {
-        char filename[50];
-        snprintf(filename, 50, "sprites/%s/%d.png", folder_name, i);
+        char filename[100];
+        snprintf(filename, 100, "/home/connor/suckless/desktop_kirby/sprites/%s/%d.png", folder_name, i);
         image_t img  = img_load(dpy, win, vinfo, fmt, filename);
         frames.frames[i] = img;
     }
