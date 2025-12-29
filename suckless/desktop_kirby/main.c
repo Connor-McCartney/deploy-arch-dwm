@@ -236,7 +236,7 @@ int run() {
     XRenderPictFormat* fmt = XRenderFindVisualFormat(dpy, vinfo.visual);
     Picture pict = XRenderCreatePicture(dpy, win, fmt, 0, NULL);
 
-    // empty input region so it's clikable through
+    // empty input region so it's clickable through
     XserverRegion region = XFixesCreateRegion(dpy, NULL, 0);
     XFixesSetWindowShapeRegion(dpy, win, ShapeInput, 0, 0, region);
     XFixesDestroyRegion(dpy, region);
@@ -256,21 +256,105 @@ int run() {
 
     kirby_frame = idle_frames.frames[0];
 
-    kirby_x = 100;
+    kirby_x = win_w/2;
     kirby_y = win_h - floor_height;
     int walk_speed = 3;
     bool on_floor;
 
+
+    int move_right = 1;
+    int move_left;
+    int move_up;
+    int move_down;
+    int look_restore_left;
+    int look_restore_right = 1;
+    bool look_restore = false;
+    bool idle_restore = false;
+    bool automated_toggle = true;
     while (1) {
         on_floor = (win_h-kirby_y <= floor_height);
+        gettimeofday(&now, NULL);
+        diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
 
-        if (*right_arrow_key_pressed && !*left_arrow_key_pressed) {
+
+        ///////////////////////////////
+        if (automated_toggle) {
+            // automated movement 
+            int r = rand();
+            move_up = 0;
+            move_down = 0;
+
+            if (look_restore && (kirby_state != LOOK)) {
+                // if finished looking, immediately keep running
+                move_left = look_restore_left;
+                move_right = look_restore_right;
+                look_restore = false;
+            }
+
+
+            if (idle_restore && (kirby_state == IDLE) && (r%500 == 3)) {
+                // if idling, wait a bit then keep running
+                move_left = look_restore_left;
+                move_right = look_restore_right;
+                idle_restore = false;
+            }
+
+
+            if ((r%500 == 0) && (kirby_state == WALK) && on_floor) {
+                // idle
+                look_restore_left = move_left;
+                look_restore_right = move_right;
+                move_left = 0;
+                move_right = 0;
+                idle_restore = true;
+                kirby_state = IDLE;
+            }
+
+            if ((r%200 == 1) && (kirby_state == WALK)) {
+                // jump
+                move_up = 1;
+            }
+
+            if ((r%500 == 2) && (kirby_state == WALK)) {
+                // look 
+                move_down = 1;
+                look_restore_left = move_left;
+                look_restore_right = move_right;
+                move_right = 0;
+                move_left = 0;
+                look_restore = true;
+            }
+
+            if (kirby_x == win_w - kirby_frame.img_w) { 
+                // right boundary
+                move_left = 1;
+                move_right = 0;
+            }
+
+            if (kirby_x == 0) { 
+                // left boundary
+                move_right = 1;
+                move_left = 0;
+            }
+
+        } else {
+            // arrow keys only work if toggled
+            move_down = *down_arrow_key_pressed;
+            move_up = *up_arrow_key_pressed;
+            move_left = *left_arrow_key_pressed;
+            move_right = *right_arrow_key_pressed;
+        }
+
+
+
+        //////////////////////////////// input stuff /////////////////////////////////////
+        if (move_right && !move_left) {
             if (on_floor) {
                 kirby_state = WALK;
             }
             kirby_direction = RIGHT;
             kirby_x += walk_speed;
-        } else if (*left_arrow_key_pressed && !*right_arrow_key_pressed) {
+        } else if (move_left && !move_right) {
             if (on_floor) {
                 kirby_state = WALK;
             }
@@ -278,15 +362,13 @@ int run() {
             kirby_x -= walk_speed;
         } else {
             if (on_floor) {
-                if (*down_arrow_key_pressed) {
+                if (move_down) {
                     kirby_state = LOOK;
                 } else if (kirby_state != LOOK) {
                     kirby_state = IDLE;
                 }
             }
-
         }
-
 
         if (on_floor) {
             kirby_y_velocity = 0;
@@ -299,14 +381,14 @@ int run() {
             } 
         }
 
-        if (*up_arrow_key_pressed && (win_h-kirby_y == floor_height))  {
+        if (move_up && (win_h-kirby_y == floor_height))  {
             kirby_y_velocity = -100;
         }
         kirby_y_velocity += 2; // gravity
         kirby_y += kirby_y_velocity/10;
+        /////////////////////////////////////////////////////////////////////////////
 
-        gettimeofday(&now, NULL);
-        diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
+
 
 
 
