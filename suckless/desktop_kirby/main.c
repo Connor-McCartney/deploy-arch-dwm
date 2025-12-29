@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/mman.h>
+#include <stdbool.h>
 #include <string.h>
 #include <sys/time.h>
 
@@ -43,6 +44,10 @@ typedef struct _{
 enum kirby_states {
     IDLE, 
     WALK,
+    JUMPING,
+    JUMP_ROLL,
+    FALLING,
+    LOOK,
 };
 
 
@@ -169,10 +174,17 @@ void animate(image_t* frames, int nframes, int animation_speed, int y_offset) {
 
     int frame = diff / animation_speed;
     if (frame >= nframes) {
+        if (kirby_state == JUMP_ROLL) {
+            kirby_state = FALLING;
+        }
+        if (kirby_state == LOOK) {
+            kirby_state = IDLE;
+        }
         frame = 0;
         last = now;
     }
     kirby_frame = frames[frame];
+
 }
 
 int run() {
@@ -231,6 +243,10 @@ int run() {
 
     frames_t idle_frames = load_frames(dpy, win, vinfo, fmt, "idle", 4);
     frames_t walk_frames = load_frames(dpy, win, vinfo, fmt, "walk", 10);
+    frames_t jumping_frames = load_frames(dpy, win, vinfo, fmt, "jumping", 1);
+    frames_t jump_roll_frames = load_frames(dpy, win, vinfo, fmt, "jump_roll", 8);
+    frames_t falling_frames = load_frames(dpy, win, vinfo, fmt, "falling", 1);
+    frames_t look_frames = load_frames(dpy, win, vinfo, fmt, "look", 28);
 
 
     struct timeval frame_last, frame_now;
@@ -243,37 +259,54 @@ int run() {
     kirby_x = 100;
     kirby_y = win_h - floor_height;
     int walk_speed = 3;
+    bool on_floor;
 
     while (1) {
+        on_floor = (win_h-kirby_y <= floor_height);
 
         if (*right_arrow_key_pressed && !*left_arrow_key_pressed) {
-            kirby_state = WALK;
+            if (on_floor) {
+                kirby_state = WALK;
+            }
             kirby_direction = RIGHT;
             kirby_x += walk_speed;
         } else if (*left_arrow_key_pressed && !*right_arrow_key_pressed) {
-            kirby_state = WALK;
+            if (on_floor) {
+                kirby_state = WALK;
+            }
             kirby_direction = LEFT;
             kirby_x -= walk_speed;
         } else {
-            kirby_state = IDLE;
+            if (on_floor) {
+                if (*down_arrow_key_pressed) {
+                    kirby_state = LOOK;
+                } else if (kirby_state != LOOK) {
+                    kirby_state = IDLE;
+                }
+            }
+
         }
 
 
-        if (win_h-kirby_y <= floor_height) {
+        if (on_floor) {
             kirby_y_velocity = 0;
             kirby_y = win_h-floor_height;
+        } else {
+            if ((kirby_y_velocity < -60)) {
+                kirby_state = JUMPING;
+            } else if (kirby_state != FALLING) {
+                kirby_state = JUMP_ROLL;
+            } 
         }
 
         if (*up_arrow_key_pressed && (win_h-kirby_y == floor_height))  {
-            kirby_y_velocity = -105;
+            kirby_y_velocity = -100;
         }
         kirby_y_velocity += 2; // gravity
         kirby_y += kirby_y_velocity/10;
 
         gettimeofday(&now, NULL);
-        //long now_us = now.tv_sec * 1000000 + now.tv_usec;
         diff = (now.tv_sec - last.tv_sec) * 1000000 + (now.tv_usec - last.tv_usec);
-
 
 
 
@@ -283,7 +316,18 @@ int run() {
         if (kirby_state == WALK) {
             animate(walk_frames.frames, walk_frames.nframes, 50000, -8);
         }
-
+        if (kirby_state == JUMPING) {
+            animate(jumping_frames.frames, jumping_frames.nframes, 1, -8);
+        }
+        if (kirby_state == JUMP_ROLL) {
+            animate(jump_roll_frames.frames, jump_roll_frames.nframes, 40000, -8); 
+        }
+        if (kirby_state == FALLING) {
+            animate(falling_frames.frames, falling_frames.nframes, 1, 5);
+        }
+        if (kirby_state == LOOK) {
+            animate(look_frames.frames, look_frames.nframes, 140000, -6);
+        }
 
 
         // don't walk outside the screen
@@ -306,7 +350,7 @@ int run() {
 
 
         // sleep
-        const long frame_us = 16666; // ~60 FPS
+        const long frame_us = 16666; // ~60 FPS 
         gettimeofday(&frame_now, NULL);
         long elapsed = (frame_now.tv_sec - frame_last.tv_sec) * 1000000 +
                        (frame_now.tv_usec - frame_last.tv_usec);
