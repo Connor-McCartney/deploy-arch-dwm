@@ -16,7 +16,8 @@ mv /tmp/deploy-arch-dwm/suckless /home/connor
 cd /home/connor/suckless/dwm && sudo make clean install
 cd /home/connor/suckless/dmenu && sudo make clean install
 cd /home/connor/suckless/slstatus && sudo make clean install
-cd /home/connor/suckless/bongocat && sudo make install
+#cd /home/connor/suckless/bongocat && sudo make install
+cd /home/connor/desktop_kirby && chmod +x build.sh && ./build.sh
 rm -rf /tmp/deploy-arch-dwm
 
 # dotfiles
