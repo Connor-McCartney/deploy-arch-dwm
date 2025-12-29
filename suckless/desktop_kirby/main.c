@@ -18,6 +18,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+int *any_key_pressed;
 int *win_key_pressed;
 int *shift_key_pressed;
 int *b_key_pressed;
@@ -82,6 +83,7 @@ void key_pressed_cb(XPointer arg, XRecordInterceptData *d) {
 
     if (!repeat) {
         if (type == KeyPress) {
+            *any_key_pressed = 1;
             if (key == 133) *win_key_pressed = 1;
             if (key == 31)  *i_key_pressed = 1;
             if (key == 56)  *b_key_pressed = 1;
@@ -187,7 +189,6 @@ void animate(image_t* frames, int nframes, int animation_speed, int y_offset) {
         last = now;
     }
     kirby_frame = frames[frame];
-
 }
 
 int run() {
@@ -250,14 +251,27 @@ int run() {
     frames_t jump_roll_frames = load_frames(dpy, win, vinfo, fmt, "jump_roll", 8);
     frames_t falling_frames = load_frames(dpy, win, vinfo, fmt, "falling", 1);
     frames_t look_frames = load_frames(dpy, win, vinfo, fmt, "look", 28);
+    frames_t bongocat_frames = load_frames(dpy, win, vinfo, fmt, "bongocat", 3);
+    frames_t kuromi_blink_frames = load_frames(dpy, win, vinfo, fmt, "kuromi_blink", 2);
+    frames_t kuromi_frames = load_frames(dpy, win, vinfo, fmt, "kuromi", 8);
 
+    kirby_frame = idle_frames.frames[0];
+    image_t bongocat_frame = bongocat_frames.frames[0];
+    image_t kuromi_blink_frame = kuromi_blink_frames.frames[0];
+    image_t kuromi_frame = kuromi_frames.frames[0];
 
     struct timeval frame_last, frame_now;
     gettimeofday(&last, NULL);
     gettimeofday(&frame_last, NULL);
 
 
-    kirby_frame = idle_frames.frames[0];
+    struct timeval kuromi_blink_last;
+    gettimeofday(&kuromi_blink_last, NULL);
+
+    struct timeval kuromi_last;
+    gettimeofday(&kuromi_last, NULL);
+
+
 
     kirby_x = win_w/2;
     kirby_y = win_h - floor_height;
@@ -266,7 +280,7 @@ int run() {
 
 
     int move_right = 1;
-    int move_left;
+    int move_left = 0;
     int move_up;
     int move_down;
     int look_restore_left;
@@ -275,6 +289,11 @@ int run() {
     bool idle_restore = false;
     bool automated_toggle = true;
     bool hide_toggle = false;
+
+    long paw_hold_until = 0;
+    int kuromi_blink_frame_no = 0;
+    int kuromi_frame_no = 3;
+
     while (1) {
         on_floor = (win_h-kirby_y <= floor_height);
         gettimeofday(&now, NULL);
@@ -448,10 +467,67 @@ int run() {
             XRenderSetPictureTransform(dpy, kirby_frame.pic, &xf);
         }
 
-        XRenderComposite(dpy, PictOpOver, kirby_frame.pic, None, pict,
-                         0, 0, 0, 0, kirby_x, kirby_y + animation_y_offset,
-                         kirby_frame.img_w, kirby_frame.img_h);
 
+        
+        // bongocat
+        if (*any_key_pressed) {
+            if (rand()%2) {
+                bongocat_frame = bongocat_frames.frames[1];
+            } else {
+                bongocat_frame = bongocat_frames.frames[2];
+            }
+            paw_hold_until = frame_now.tv_usec + 50000;
+        } else if (frame_now.tv_usec > paw_hold_until) {
+            bongocat_frame = bongocat_frames.frames[0];
+        }
+        XRenderComposite(dpy, PictOpOver, bongocat_frame.pic, None, pict,
+                         0, 0, 0, 0, 0, win_h-floor_height-11,
+                         bongocat_frame.img_w, bongocat_frame.img_h);
+
+
+        // kuromi blink
+        int kuromi_blink_diff = (now.tv_sec - kuromi_blink_last.tv_sec) * 1000000 + (now.tv_usec - kuromi_blink_last.tv_usec);
+        if (kuromi_blink_diff < 1500000) {
+            kuromi_blink_frame_no = 0;
+        } else if (kuromi_blink_diff < 1700000) {
+            kuromi_blink_frame_no = 1;
+        } else {
+            kuromi_blink_last = now;
+        }
+        kuromi_blink_frame = kuromi_blink_frames.frames[kuromi_blink_frame_no];
+        XRenderComposite(dpy, PictOpOver, kuromi_blink_frame.pic, None, pict,
+                         0, 0, 0, 0, 80, win_h-floor_height-11,
+                         kuromi_blink_frame.img_w, kuromi_blink_frame.img_h);
+
+
+        // kuromi 
+        int kuromi_diff = (now.tv_sec - kuromi_last.tv_sec) * 1000000 + (now.tv_usec - kuromi_last.tv_usec);
+
+        if (kuromi_diff < 1000000) kuromi_frame_no = 3;
+        else if (kuromi_diff < 1900000) kuromi_frame_no = 4;
+        else if (kuromi_diff < 2200000) kuromi_frame_no = 5;
+        else if (kuromi_diff < 2500000) kuromi_frame_no = 6;
+        else if (kuromi_diff < 2800000) kuromi_frame_no = 7;
+        else if (kuromi_diff < 4000000) kuromi_frame_no = 7;
+        else if (kuromi_diff < 5000000) kuromi_frame_no = 0;
+        else if (kuromi_diff < 5100000) kuromi_frame_no = 1;
+        else if (kuromi_diff < 6100000) kuromi_frame_no = 2;
+        else if (kuromi_diff < 6200000) kuromi_frame_no = 1;
+        else kuromi_last = now;
+
+        kuromi_frame = kuromi_frames.frames[kuromi_frame_no];
+        XRenderComposite(dpy, PictOpOver, kuromi_frame.pic, None, pict,
+                         0, 0, 0, 0, 140, win_h-floor_height-11,
+                         kuromi_frame.img_w, kuromi_frame.img_h);
+
+
+        // render kirby after others
+        XRenderComposite(dpy, PictOpOver, kirby_frame.pic, None, pict,
+                0, 0, 0, 0, kirby_x, kirby_y + animation_y_offset,
+                kirby_frame.img_w, kirby_frame.img_h);
+
+
+        *any_key_pressed = 0;
         XFlush(dpy);
 
 
@@ -466,9 +542,12 @@ int run() {
         frame_last = frame_now;
 
 
+        // clear prev frames
         //XRenderColor transparent = {0, 6553, 0, 1};
         XRenderColor transparent = {0, 0, 0, 0};
         XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, kirby_x, kirby_y+animation_y_offset, kirby_frame.img_w, kirby_frame.img_h);
+        XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, 0, win_h-floor_height-11, bongocat_frame.img_w, bongocat_frame.img_h);
+        XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, 140, win_h-floor_height-11, kuromi_frame.img_w, kuromi_frame.img_h);
 
 
 
@@ -477,6 +556,7 @@ int run() {
 }
 
 int main() {
+    any_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     win_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     shift_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     b_key_pressed = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
