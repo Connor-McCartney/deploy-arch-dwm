@@ -473,14 +473,15 @@ int run() {
 
         
         // bongocat
+        gettimeofday(&frame_now, NULL);
         if (*any_key_pressed) {
             if (rand()%2) {
                 bongocat_frame = bongocat_frames.frames[1];
             } else {
                 bongocat_frame = bongocat_frames.frames[2];
             }
-            paw_hold_until = frame_now.tv_usec + 50000;
-        } else if (frame_now.tv_usec > paw_hold_until) {
+            paw_hold_until = (frame_now.tv_sec * 1000000L + frame_now.tv_usec) + 50000;
+        } else if ((frame_now.tv_sec * 1000000L + frame_now.tv_usec) > paw_hold_until) {
             bongocat_frame = bongocat_frames.frames[0];
         }
         XRenderComposite(dpy, PictOpOver, bongocat_frame.pic, None, pict,
@@ -519,8 +520,9 @@ int run() {
         else kuromi_last = now;
 
         kuromi_frame = kuromi_frames.frames[kuromi_frame_no];
+        int kuromi_y_offset = 14;
         XRenderComposite(dpy, PictOpOver, kuromi_frame.pic, None, pict,
-                         0, 0, 0, 0, 140, win_h-floor_height-11,
+                         0, 0, 0, 0, 140, win_h-floor_height-kuromi_y_offset,
                          kuromi_frame.img_w, kuromi_frame.img_h);
 
 
@@ -550,7 +552,7 @@ int run() {
         XRenderColor transparent = {0, 0, 0, 0};
         XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, kirby_x, kirby_y+animation_y_offset, kirby_frame.img_w, kirby_frame.img_h);
         XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, 0, win_h-floor_height-11, bongocat_frame.img_w, bongocat_frame.img_h);
-        XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, 140, win_h-floor_height-11, kuromi_frame.img_w, kuromi_frame.img_h);
+        XRenderFillRectangle(dpy, PictOpSrc, pict, &transparent, 140, win_h-floor_height-kuromi_y_offset, kuromi_frame.img_w, kuromi_frame.img_h);
 
 
 
