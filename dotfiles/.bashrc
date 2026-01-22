@@ -1,11 +1,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-
 HISTFILESIZE=10000000
 
 #normal/default green, directories aqua underlined, executables pink, .py red
 export LS_COLORS="no=32:di=4;96:ex=1;35:*.py=1;31"
-export PS1="\[\e[0;35m\]\n[\w]\[\[\e[m\] \[\e[0;37m\]\n\$\[\e[m\] "
+export PS1="\[\e[0;35m\]\n[\w]\[\[\e[m\] \[\e[0;37m\]\n\\$\[\e[m\] "
 
 alias n="nasm -f elf64 x.asm && ld x.o && ./a.out"
 alias q="qemu-system-x86_64"
