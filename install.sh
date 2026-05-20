@@ -1,6 +1,11 @@
 swapoff /dev/*
 umount /dev/*
 
+#target="uefi-luks-hyperv"
+target="bios-thinkpad"
+#target="uefi-luks-HP"
+
+
 set -e
 
 # 1. BIOS
