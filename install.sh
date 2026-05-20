@@ -8,14 +8,62 @@ target="bios-thinkpad"
 
 set -e
 
+
+
+
+if [[ $target = "uefi-luks-hyperv" ]]; then
+    printf "g\nn\n1\n\n+256M\nt\n1\nn\n2\n\n\nw\n" | fdisk /dev/sda
+    cryptsetup luksFormat /dev/sda2
+    cryptsetup open /dev/sda2 cryptlvm
+    pvcreate /dev/mapper/cryptlvm
+    vgcreate vg1 /dev/mapper/cryptlvm
+    lvcreate -L 8G vg1 -n swap
+    lvcreate -l 100%FREE vg1 -n root
+    mkfs.vfat -F 32 /dev/sda1
+    mkfs.ext4 /dev/vg1/root
+    mkswap /dev/vg1/swap
+    mount /dev/vg1/root /mnt
+    mkdir /mnt/boot
+    mount /dev/sda1 /mnt/boot
+    swapon /dev/vg1/swap
+fi
+
+
+if [[ $target = "uefi-luks-HP" ]]; then
+    printf "g\nn\n1\n\n+256M\nt\n1\nn\n2\n\n\nw\n" | fdisk /dev/nvme0n1
+    cryptsetup luksFormat /dev/nvme0n1p2
+    cryptsetup open /dev/nvme0n1p2 cryptlvm
+    pvcreate /dev/mapper/cryptlvm
+    vgcreate vg1 /dev/mapper/cryptlvm
+    lvcreate -L 8G vg1 -n swap
+    lvcreate -l 100%FREE vg1 -n root
+    mkfs.vfat -F 32 /dev/nvme0n1p1
+    mkfs.ext4 /dev/vg1/root
+    mkswap /dev/vg1/swap
+    mount /dev/vg1/root /mnt
+    mkdir /mnt/boot
+    mount /dev/nvme0n1p1 /mnt/boot
+    swapon /dev/vg1/swap
+fi
+
+if [[ $target = "bios-thinkpad" ]]; then
+    printf "o\nn\n\n\n\n+8G\nn\n\n\n\n\nt\n1\n82\na\n2\nw\n" | fdisk /dev/sda  
+    mkswap /dev/sda1
+    mkfs.ext4 /dev/sda2
+    mount /dev/sda2 /mnt
+    swapon /dev/sda1
+fi
+
+
+
 # 1. BIOS
-DISK="/dev/vda"
-DISK="/dev/sda"
-printf "o\nn\n\n\n\n+8G\nn\n\n\n\n\nt\n1\n82\na\n2\nw\n" | fdisk $DISK  
-mkswap "$DISK""1"
-mkfs.ext4 "$DISK""2"
-mount "$DISK""2" /mnt
-swapon "$DISK""1"
+#DISK="/dev/vda"
+#DISK="/dev/sda"
+#printf "o\nn\n\n\n\n+8G\nn\n\n\n\n\nt\n1\n82\na\n2\nw\n" | fdisk $DISK  
+#mkswap "$DISK""1"
+#mkfs.ext4 "$DISK""2"
+#mount "$DISK""2" /mnt
+#swapon "$DISK""1"
 
 # 2. UEFI
 #DISK="/dev/nvme0n1"
