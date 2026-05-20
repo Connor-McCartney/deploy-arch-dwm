@@ -4,10 +4,17 @@ cd /home/connor
 mkdir Documents t
 
 # Paru
+#cd /tmp
+#git clone https://aur.archlinux.org/paru-bin.git
+#cd paru-bin
+#makepkg -si --noconfirm
+
+# compile yay
 cd /tmp
-git clone https://aur.archlinux.org/paru-bin.git
-cd paru-bin
-makepkg -si --noconfirm
+git clone https://aur.archlinux.org/yay.git
+cd yay
+printf "y\n" | makepkg -si
+
 
 # suckless
 cd /tmp
@@ -29,10 +36,10 @@ chmod +x install.sh
 ./install.sh
 
 # wallpaper
-paru -S --noconfirm feh
+yay -S --noconfirm feh
 
 # compositor (for transparency, rounded corners, other effects)
-paru -S --noconfirm picom-ftlabs-git
+yay -S --noconfirm picom-ftlabs-git
 
 #printf "exec dwm" > /home/connor/.xinitrc # technically not needed, it's just to be able to run 'startx'
 
@@ -46,12 +53,12 @@ chmod +x /home/connor/.xsession
 #sudo wget https://github.com/Connor-McCartney/deploy-arch-dwm/raw/refs/heads/main/dotfiles/ComicShannsMonoNerdFontMono-Regular.otf
 #fc-cache -fv
 
-paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd ttf-comic-mono-git
-paru -S --noconfirm brave-bin discord obsidian flameshot thunar google-chrome kitty
-paru -S --noconfirm gvfs usbutils
+yay -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd ttf-comic-mono-git
+yay -S --noconfirm brave-bin discord obsidian flameshot thunar google-chrome kitty
+yay -S --noconfirm gvfs usbutils
 
 # just for audio effect ('play file.mp3')
-paru -S --noconfirm sox twolame libmad
+yay -S --noconfirm sox twolame libmad
 
 # python setup
 paru -S --noconfirm python-pip
