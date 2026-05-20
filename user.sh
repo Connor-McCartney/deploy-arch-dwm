@@ -15,7 +15,7 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 printf "y\n" | makepkg -si
 
-yay -S cmake --noconfirm
+yay -S cmake unzip --noconfirm
 
 
 # suckless
