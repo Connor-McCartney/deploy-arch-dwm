@@ -55,6 +55,6 @@ fi
 pacstrap /mnt base linux
 genfstab -U /mnt >> /mnt/etc/fstab
 cd /mnt
-curl -o https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/minimal-after-chroot.sh
+curl https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/minimal-after-chroot.sh -o minimal-after-chroot.sh
 cat minimal-after-chroot.sh | arch-chroot /mnt
 #reboot
