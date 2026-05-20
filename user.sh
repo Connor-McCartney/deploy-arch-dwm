@@ -39,7 +39,7 @@ chmod +x install.sh
 yay -S --noconfirm feh
 
 # compositor (for transparency, rounded corners, other effects)
-yay -S --noconfirm picom-ftlabs-git
+yay -S --noconfirm picom # picom-ftlabs-git
 
 #printf "exec dwm" > /home/connor/.xinitrc # technically not needed, it's just to be able to run 'startx'
 
