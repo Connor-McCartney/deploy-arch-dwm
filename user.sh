@@ -15,6 +15,8 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 printf "y\n" | makepkg -si
 
+yay -S cmake --noconfirm
+
 
 # suckless
 cd /tmp
@@ -61,7 +63,7 @@ yay -S --noconfirm gvfs usbutils
 yay -S --noconfirm sox twolame libmad
 
 # python setup
-paru -S --noconfirm python-pip
+yay -S --noconfirm python-pip
 python -m venv /home/connor/.p
 /home/connor/.p/bin/python -m pip install --upgrade pip
 /home/connor/.p/bin/pip install pycryptodome gmpy2 pwntools
@@ -70,17 +72,17 @@ python -m venv /home/connor/.p
 #/usr/bin/sage --pip install pycryptodome pwntools --break-system-packages
 
 # LSPs
-paru -S --noconfirm clang pyright lua-language-server asm-lsp rust-analyzer # rust gets installed as a dependancy
+yay -S --noconfirm clang pyright lua-language-server asm-lsp rust-analyzer # rust gets installed as a dependancy
 
 
 # change gtk themes by running nwg-look
-paru -S --noconfirm arc-gtk-theme
-paru -S --noconfirm papirus-folders
+yay -S --noconfirm arc-gtk-theme
+yay -S --noconfirm papirus-folders
 papirus-folders -C magenta
-paru -S --noconfirm kvantum nwg-look 
+yay -S --noconfirm kvantum nwg-look 
 
 # file previews 
-paru -S --noconfirm tumbler ffmpegthumbnailer libopenraw
+yay -S --noconfirm tumbler ffmpegthumbnailer libopenraw
 
 
 
