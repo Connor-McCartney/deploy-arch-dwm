@@ -24,6 +24,7 @@ alias s=sage
 alias xx="nvim x.sage"
 alias x="sage x.sage"
 alias clear="printf '\E[H\E[3J'"
+alias yay="yay --noconfirm"
 
 cx() {
   chmod +x "$1"
