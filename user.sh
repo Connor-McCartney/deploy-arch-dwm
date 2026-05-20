@@ -47,7 +47,7 @@ chmod +x /home/connor/.xsession
 #fc-cache -fv
 
 paru -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd ttf-comic-mono-git
-paru -S --noconfirm brave-bin discord obsidian flameshot sagemath thunar google-chrome kitty
+paru -S --noconfirm brave-bin discord obsidian flameshot thunar google-chrome kitty
 paru -S --noconfirm gvfs usbutils
 
 # just for audio effect ('play file.mp3')
@@ -60,7 +60,7 @@ python -m venv /home/connor/.p
 /home/connor/.p/bin/pip install pycryptodome gmpy2 pwntools
 
 # sage libs
-/usr/bin/sage --pip install pycryptodome pwntools --break-system-packages
+#/usr/bin/sage --pip install pycryptodome pwntools --break-system-packages
 
 # LSPs
 paru -S --noconfirm clang pyright lua-language-server asm-lsp rust-analyzer # rust gets installed as a dependancy
