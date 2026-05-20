@@ -76,4 +76,22 @@ paru -S --noconfirm kvantum nwg-look
 paru -S --noconfirm tumbler ffmpegthumbnailer libopenraw
 
 
+
+# compile neovim
+cd /opt
+sudo git clone https://github.com/neovim/neovim -b v0.12.2
+cd neovim
+sudo make install
+
+
+# compile treesitter
+cd /opt
+sudo wget https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.8/tree-sitter-cli-linux-x64.zip
+sudo unzip tree-sitter-cli-linux-x64.zip
+sudo chmod +x tree-sitter
+sudo mv tree-sitter /usr/bin
+sudo rm tree-sitter-cli-linux-x64.zip
+
+
+
 rm /home/connor/user.sh
