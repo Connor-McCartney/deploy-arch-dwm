@@ -1,7 +1,7 @@
 set -e
 
 cd /home/connor
-mkdir Documents t
+mkdir -p Documents t
 
 # Paru
 #cd /tmp
@@ -28,8 +28,8 @@ cd /home/connor/suckless/desktop_kirby && chmod +x build.sh && ./build.sh
 rm -rf /tmp/deploy-arch-dwm
 
 # dotfiles
-nvim -v # just running some type of application will create the .local directory
-mkdir /home/connor/.config
+#nvim -v # just running some type of application will create the .local directory
+mkdir -p /home/connor/.config .local
 cd /tmp
 wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/dotfiles/install.sh
 chmod +x install.sh
