@@ -23,7 +23,7 @@ echo "arch" > /etc/hostname
 pacman -S --noconfirm xorg xorg-xinit xclip xsel xautomation xorgproto
 pacman -S --noconfirm networkmanager vim sudo base-devel os-prober grub vlc htop git wget ripgrep fzf bat fd
 #pacman -S --noconfirm alsa-utils # adjust with alsamixer, arrowkeys and m toggles mute
-pacman -S --noconfirm pulseaudio pavucontrol
+pacman -S --noconfirm pulseaudio pavucontrol vlc-plugins-all
 systemctl enable NetworkManager
 
 # disable screen saving
