@@ -97,6 +97,6 @@ fi
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 cd /mnt
-wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/after-chroot.sh
+curl https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/after-chroot.sh > after-chroot.sh
 cat after-chroot.sh | arch-chroot /mnt
 #reboot
