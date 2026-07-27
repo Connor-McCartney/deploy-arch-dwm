@@ -5,10 +5,6 @@ target="uefi-luks-hyperv"
 #target="uefi-luks-HP"
 
 
-#target="uefi-luks-hyperv"
-target="bios-thinkpad"
-#target="uefi-luks-HP"
-
 DISK="/dev/vda"
 DISK="/dev/sda"
 
