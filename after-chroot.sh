@@ -1,7 +1,7 @@
 set -e
 
-#target="uefi-luks-hyperv"
-target="bios-thinkpad"
+target="uefi-luks-hyperv"
+#target="bios-thinkpad"
 #target="uefi-luks-HP"
 
 
