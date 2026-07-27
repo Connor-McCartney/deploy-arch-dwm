@@ -93,7 +93,7 @@ printf " \n \n" | passwd connor
 echo -e "root ALL=(ALL:ALL) ALL\n%wheel ALL=(ALL:ALL) NOPASSWD: ALL\n@includedir /etc/sudoers.d" > /etc/sudoers
 
 cd /home/connor
-wget https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/user.sh
+curl https://raw.githubusercontent.com/Connor-McCartney/deploy-arch-dwm/refs/heads/main/user.sh > user.sh
 chmod +x user.sh
 sudo -u connor bash user.sh
 
