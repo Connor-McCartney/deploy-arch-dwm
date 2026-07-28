@@ -56,7 +56,7 @@ chmod +x /home/connor/.xsession
 #fc-cache -fv
 
 yay -S --noconfirm  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-hack-nerd ttf-comic-mono-git
-yay -S --noconfirm brave-bin discord obsidian flameshot thunar google-chrome kitty
+yay -S --noconfirm waterfox-bin discord obsidian flameshot thunar google-chrome kitty
 yay -S --noconfirm gvfs usbutils
 
 # just for audio effect ('play file.mp3')
